@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kyle Lin | Fun Facts Gallery</title>
+  <style>
+    :root {
+      --bg: #f7f4ef;
+      --ink: #1f1b16;
+      --muted: #5b544d;
+      --line: #d9cfc1;
+      --panel: #fffaf4;
+      --accent: #183153;
+      --accent2: #007a6c;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: "Segoe UI", sans-serif;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 14% 8%, rgba(0, 122, 108, 0.16) 0, rgba(0, 122, 108, 0) 32%),
+        radial-gradient(circle at 90% 16%, rgba(24, 49, 83, 0.14) 0, rgba(24, 49, 83, 0) 26%),
+        linear-gradient(140deg, #fbf8f3 0%, #f5efe8 54%, #eef4f6 100%);
+      min-height: 100vh;
+    }
+
+    .page {
+      width: min(1050px, calc(100% - 1.4rem));
+      margin: 0 auto;
+      padding: 1.2rem 0 2.2rem;
+    }
+
+    .top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.8rem;
+      flex-wrap: wrap;
+      margin-bottom: 1.1rem;
+    }
+
+    .title {
+      font-size: clamp(1.5rem, 4vw, 2.2rem);
+      color: var(--accent);
+      letter-spacing: -0.01em;
+    }
+
+    .back {
+      text-decoration: none;
+      font-size: 0.92rem;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: #fff;
+      color: var(--accent);
+      padding: 0.42rem 0.8rem;
+    }
+
+    .hint {
+      color: var(--muted);
+      margin-bottom: 1.2rem;
+      font-size: 0.96rem;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 1rem;
+    }
+
+    .card {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 0.9rem;
+      box-shadow: 0 8px 20px rgba(24, 49, 83, 0.08);
+    }
+
+    .card h2 {
+      font-size: 1rem;
+      color: var(--accent);
+      margin-bottom: 0.6rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .preview {
+      width: 100%;
+      aspect-ratio: 4 / 3;
+      border-radius: 12px;
+      border: 1px solid var(--line);
+      object-fit: cover;
+      background: #f0ece5;
+      margin-bottom: 0.65rem;
+    }
+
+    .card p {
+      font-size: 0.9rem;
+      color: var(--muted);
+      margin-bottom: 0.6rem;
+      line-height: 1.4;
+    }
+
+    .card code {
+      font-size: 0.82rem;
+      background: #f4eee7;
+      border: 1px solid var(--line);
+      padding: 0.08rem 0.35rem;
+      border-radius: 6px;
+    }
+
+    @media (max-width: 900px) {
+      .grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <div class="top">
+      <h1 class="title">Fun Facts Gallery</h1>
+      <a class="back" href="../index.html">Back to homepage</a>
+    </div>
+
+    <p class="hint">
+      Drop photos into the folders below and replace the default preview files with your own pictures.
+    </p>
+
+    <section class="grid">
+      <article class="card">
+        <h2>Community Service</h2>
+        <img class="preview" src="community-service/cover.svg" alt="Community service placeholder" />
+        <p>
+          Add photos from volunteer activities and outreach events.
+        </p>
+        <p>
+          Folder: <code>fun-facts/community-service/</code>
+        </p>
+      </article>
+
+      <article class="card">
+        <h2>Water Polo</h2>
+        <img class="preview" src="water-polo/cover.svg" alt="Water polo placeholder" />
+        <p>
+          Add team photos, tournament snapshots, and action shots.
+        </p>
+        <p>
+          Folder: <code>fun-facts/water-polo/</code>
+        </p>
+      </article>
+
+      <article class="card">
+        <h2>Drama Play</h2>
+        <img class="preview" src="drama-play/cover.svg" alt="Drama play placeholder" />
+        <p>
+          Add rehearsal and stage photos from your performances.
+        </p>
+        <p>
+          Folder: <code>fun-facts/drama-play/</code>
+        </p>
+      </article>
+    </section>
+  </main>
+</body>
+</html>

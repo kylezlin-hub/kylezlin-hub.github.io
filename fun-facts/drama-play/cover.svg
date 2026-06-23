@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="900" viewBox="0 0 1200 900" role="img" aria-label="Drama play placeholder">
+  <rect width="1200" height="900" fill="#f8f1e9"/>
+  <circle cx="240" cy="220" r="180" fill="#f0d8bc"/>
+  <circle cx="980" cy="180" r="150" fill="#e4d6ef"/>
+  <rect x="220" y="290" width="760" height="360" rx="24" fill="#fffaf4" stroke="#dbcab5" stroke-width="4"/>
+  <text x="600" y="450" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="58" fill="#183153" font-weight="700">Drama Play</text>
+  <text x="600" y="520" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="34" fill="#6f5b49">Replace cover.svg with your photo</text>
+</svg>
