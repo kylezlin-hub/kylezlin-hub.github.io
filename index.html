@@ -155,7 +155,75 @@
       display: flex;
       flex-direction: column;
       justify-content: center;
+      align-items: flex-end;
+      gap: 1rem;
+    }
+
+    .headshot-frame {
+      position: relative;
+      overflow: hidden;
+      border-radius: 18px;
+      border: 1px solid var(--line);
+      background: linear-gradient(145deg, rgba(24, 49, 83, 0.12), rgba(0, 122, 108, 0.14));
+      width: min(100%, 210px);
+      aspect-ratio: 4 / 5;
+      min-height: 0;
+      box-shadow: 0 8px 22px rgba(24, 49, 83, 0.1);
+    }
+
+    .headshot-img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .fact-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 0.8rem;
+      width: 100%;
+    }
+
+    .headshot-fallback {
+      position: absolute;
+      inset: 0;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 0.55rem;
+      padding: 1.2rem;
+      text-align: center;
+      color: var(--accent-3);
+    }
+
+    .headshot-frame.empty .headshot-fallback {
+      display: flex;
+    }
+
+    .headshot-frame.empty .headshot-img {
+      display: none;
+    }
+
+    .headshot-initials {
+      width: 94px;
+      height: 94px;
+      border-radius: 999px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(255, 255, 255, 0.72);
+      border: 1px solid rgba(24, 49, 83, 0.12);
+      font-size: 2rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+    }
+
+    .headshot-note {
+      font-size: 0.85rem;
+      color: var(--muted);
+      max-width: 22ch;
     }
 
     .fact {
@@ -263,18 +331,42 @@
       background: linear-gradient(180deg, #f6fdfb 0%, #f9fffe 100%);
     }
 
-    .leadership {
+    .skills {
       grid-column: span 5;
       background: linear-gradient(180deg, #fff9f5 0%, #fffefc 100%);
-    }
-
-    .skills {
-      grid-column: span 7;
     }
 
     .technical {
       grid-column: span 12;
       background: linear-gradient(180deg, #f2fbff 0%, #fbfefe 100%);
+    }
+
+    .credentials {
+      grid-column: span 12;
+      background: linear-gradient(180deg, #fffaf1 0%, #fffdf9 100%);
+    }
+
+    .credential-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.8rem;
+      flex-wrap: wrap;
+      padding: 0.5rem 0;
+      border-bottom: 1px dashed rgba(24, 49, 83, 0.14);
+    }
+
+    .credential-item:last-child {
+      border-bottom: none;
+    }
+
+    .credential-link {
+      font-size: 0.88rem;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 0.35rem 0.7rem;
+      background: #fff;
+      white-space: nowrap;
     }
 
 
@@ -336,12 +428,21 @@
         grid-template-columns: 1fr;
       }
 
+      .hero-right {
+        align-items: stretch;
+      }
+
+      .headshot-frame {
+        width: min(100%, 220px);
+        align-self: center;
+      }
+
       .national,
       .school,
       .research,
-      .leadership,
       .skills,
-      .technical {
+      .technical,
+      .credentials {
         grid-column: span 12;
       }
     }
@@ -358,6 +459,10 @@
 
       h1 {
         line-height: 1.12;
+      }
+
+      .fact-grid {
+        grid-template-columns: 1fr;
       }
     }
   </style>
@@ -376,8 +481,8 @@
           <h1>Kyle Lin</h1>
           <p class="subtitle">St. Mark's School of Texas, Class of 2028</p>
           <p class="lead">
-            Student researcher and speaker with national recognition in mathematics,
-            computer science, and academic leadership.
+            Student researcher with national recognition in mathematics and computer science,
+            focused on renewable energy systems, power grid forecasting, AI, and uncertainty quantification.
           </p>
           <div class="cta">
             <a class="button primary" href="https://github.com/kylezlin-hub" target="_blank"
@@ -386,17 +491,32 @@
           </div>
         </div>
         <aside class="hero-right">
-          <div class="fact">
-            <span class="label">Current</span>
-            <span class="value">UTD AI Safety Lab Research Intern (Summer 2026)</span>
-          </div>
-          <div class="fact">
-            <span class="label">Highlight</span>
-            <span class="value">MOP Camper (2025)</span>
-          </div>
-          <div class="fact">
-            <span class="label">Location</span>
-            <span class="value">Dallas, Texas</span>
+          <figure class="headshot-frame">
+            <img class="headshot-img" src="https://avatars.githubusercontent.com/u/264223407?v=4"
+              alt="Kyle Lin headshot" onerror="this.parentElement.classList.add('empty')"
+              onload="this.parentElement.classList.remove('empty')" />
+            <div class="headshot-fallback">
+              <div class="headshot-initials">KL</div>
+              <div class="headshot-note">GitHub profile image unavailable</div>
+            </div>
+          </figure>
+          <div class="fact-grid">
+            <div class="fact">
+              <span class="label">Current</span>
+              <span class="value">UTD AI Safety Lab Research Intern (Summer 2026)</span>
+            </div>
+            <div class="fact">
+              <span class="label">Highlight</span>
+              <span class="value">MOP Camper (2025)</span>
+            </div>
+            <div class="fact">
+              <span class="label">Research Interests</span>
+              <span class="value">Renewable energy, power systems, AI, uncertainty quantification</span>
+            </div>
+            <div class="fact">
+              <span class="label">Location</span>
+              <span class="value">Dallas, Texas</span>
+            </div>
           </div>
         </aside>
       </div>
@@ -430,19 +550,12 @@
         <h2>Research Experience</h2>
         <ul>
           <li><strong>UTD AI Safety Lab Research Intern</strong> (Summer 2026), advised by Prof. Feng Chen.</li>
-          <li><strong>Adaptive Influence Balancing for Multi-Agent LLM Debates</strong> under the supervision of Prof. Feng Chen, director of AI Safety Laboratory.</li>
-          <li><em>Focus areas:</em> AI safety, multi-agent systems, and robust evaluation methods.</li>
-        </ul>
-      </article>
-
-      <article class="card leadership reveal delay-4">
-        <h2>Leadership &amp; Academic Activities</h2>
-        <ul>
-          <li><strong>School MATHCOUNTS Team Coach</strong> (Fall 2025 - Spring 2026)</li>
-          <li>Coach and mentor middle-school students in competition mathematics.</li>
-          <li>Develop problem-solving strategies and prepare students for regional contests.</li>
-          <li><strong>High School Math Team</strong> (Fall 2024 - Present) - Active competitor in advanced mathematics competitions.</li>
-          <li><strong>Mental Health Club</strong> (Fall 2025 - Present) - Member.</li>
+          <li><strong>Adaptive Influence Balancing for Multi-Agent LLM Debates</strong> under the supervision of Prof.
+            Feng Chen, director of AI Safety Laboratory.</li>
+          <li><strong>Independent Renewable Grid Research:</strong> built forecasting and analysis workflows on load,
+            solar, and wind generation dynamics.</li>
+          <li><em>Focus areas:</em> renewable energy forecasting, power systems analytics, AI modeling, and uncertainty
+            quantification.</li>
         </ul>
       </article>
 
@@ -450,20 +563,58 @@
         <h2>Skills &amp; Interests</h2>
         <ul>
           <li><strong>Mathematics:</strong> Olympiad-level problem solving and proof-based mathematics.</li>
-          <li><strong>Public Speaking &amp; Performance:</strong> Improvisational theater and poetry recitation.</li>
+          <li><strong>AI &amp; Modeling:</strong> deep learning, gradient boosting, feature engineering, and model
+            comparison.</li>
+          <li><strong>Energy &amp; Systems:</strong> load-solar-wind forecasting, electricity balance analysis, and grid
+            behavior interpretation.</li>
+          <li><strong>Uncertainty Quantification:</strong> validation-aware model selection, error analysis, and
+            robustness-oriented evaluation.</li>
           <li><strong>Languages:</strong> Latin (academic), Chinese (cultural studies).</li>
-          <li><strong>Interests:</strong> Competitive math, performing arts, coaching, history, finance, and athletics.</li>
+          <li><strong>Interests:</strong> Renewable energy, power systems, AI safety, competitive math, and finance.
+          </li>
         </ul>
       </article>
 
       <article class="card technical reveal delay-4">
         <h2>Research &amp; Technical Projects</h2>
         <ul>
-          <li><strong>Renewable Grid Risk Analysis</strong> (2026, independent research) - Developed a computational framework to quantify net-load variability under increasing renewable penetration scenarios.</li>
-          <li>Analyzed ERCOT historical load and renewable generation data (solar and wind).</li>
-          <li><strong>AI Safety Lab Research Intern, University of Dallas</strong> (2026) - Adaptive Influence Balancing for Multi-Agent LLM Debates.</li>
-          <li>Maintains a public GitHub portfolio with independent research, AI applications, and mathematical modeling projects with full methodology and experiment documentation.</li>
-          <li>GitHub portfolio: <a href="https://github.com/kylezlin-hub" target="_blank" rel="noopener noreferrer">github.com/kylezlin-hub</a></li>
+          <li><strong>Renewable Grid Risk Analysis</strong> (2026, independent research) - Developed a computational
+            framework to quantify net-load variability under increasing renewable penetration scenarios.</li>
+          <li>Analyzed ERCOT historical load and renewable generation data (solar and wind), including seasonality,
+            weather sensitivity, and operational volatility.</li>
+          <li><strong>Kaggle Electricity Balance Forecast</strong> - Built an end-to-end ML pipeline for forecasting
+            electricity balance from weather and calendar signals using direct and component modeling strategies.</li>
+          <li>Compared model families and validation outcomes with explicit error analysis to improve reliability under
+            uncertainty.</li>
+          <li><strong>AI Safety Lab Research Intern, University of Dallas</strong> (2026) - Adaptive Influence Balancing
+            for Multi-Agent LLM Debates.</li>
+          <li><strong>UTD Summer Research Test Problem</strong> - Designed and evaluated CNN variants for vehicle image
+            classification, selecting architecture based on accuracy-overfitting tradeoffs.</li>
+          <li>Maintains a public GitHub portfolio with independent research, AI applications, and mathematical modeling
+            projects with full methodology and experiment documentation.</li>
+          <li>GitHub portfolio: <a href="https://github.com/kylezlin-hub" target="_blank"
+              rel="noopener noreferrer">github.com/kylezlin-hub</a></li>
+        </ul>
+      </article>
+
+      <article class="card credentials reveal delay-4">
+        <h2>Selected Credentials</h2>
+        <ul>
+          <li class="credential-item">
+            <span><strong>MOP Camper (2025)</strong> - Verification document</span>
+            <a class="credential-link" href="credentials/viewer.html?file=mop-2025-proof.pdf&title=MOP%20Camper%20(2025)" target="_blank"
+              rel="noopener noreferrer">View verification</a>
+          </li>
+          <li class="credential-item">
+            <span><strong>USAJMO Top Honor (2025)</strong> - Verification document</span>
+            <a class="credential-link" href="credentials/viewer.html?file=usajmo-2025-proof.pdf&title=USAJMO%20Top%20Honor%20(2025)" target="_blank"
+              rel="noopener noreferrer">View verification</a>
+          </li>
+          <li class="credential-item">
+            <span><strong>USAJMO Honorable Mention (2026)</strong> - Verification document</span>
+            <a class="credential-link" href="credentials/viewer.html?file=usajmo-2026-proof.pdf&title=USAJMO%20Honorable%20Mention%20(2026)" target="_blank"
+              rel="noopener noreferrer">View verification</a>
+          </li>
         </ul>
       </article>
     </section>
