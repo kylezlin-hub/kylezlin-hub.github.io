@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Kyle Lin - St. Mark's School of Texas, Class of 2028. National honors in mathematics, computer science, and research." />
+  <title>Kyle Lin | St. Mark's School of Texas | Class of 2028</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=IBM+Plex+Serif:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #f8f4ef;
+      --ink: #1d1b18;
+      --muted: #5b544d;
+      --panel: #fffaf3;
+      --line: #d9cfc1;
+      --accent: #007a6c;
+      --accent-2: #c85f2c;
+      --accent-3: #183153;
+      --shadow: 0 14px 40px rgba(24, 49, 83, 0.14);
+      --radius: 18px;
+      --max: 1060px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html,
+    body {
+      min-height: 100%;
+    }
+
+    body {
+      font-family: "Space Grotesk", "Segoe UI", sans-serif;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 12% 10%, rgba(0, 122, 108, 0.18) 0, rgba(0, 122, 108, 0) 34%),
+        radial-gradient(circle at 88% 18%, rgba(200, 95, 44, 0.2) 0, rgba(200, 95, 44, 0) 32%),
+        linear-gradient(140deg, #fcf8f3 0%, #f6f0e8 45%, #eef4f6 100%);
+      line-height: 1.5;
+    }
+
+    .page {
+      width: min(var(--max), calc(100% - 2rem));
+      margin: 0 auto;
+      padding: 1.5rem 0 4rem;
+    }
+
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+      margin-bottom: 2.5rem;
+    }
+
+    .nameplate {
+      font-size: 0.92rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--accent-3);
+      font-weight: 700;
+    }
+
+    .topbar a {
+      color: var(--accent-3);
+      text-decoration: none;
+      font-size: 0.92rem;
+      border: 1px solid var(--line);
+      padding: 0.45rem 0.8rem;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.6);
+      transition: transform 0.2s ease, border-color 0.2s ease;
+    }
+
+    .topbar a:hover {
+      transform: translateY(-1px);
+      border-color: var(--accent);
+    }
+
+    .hero {
+      background: linear-gradient(130deg, rgba(255, 250, 243, 0.94), rgba(244, 252, 251, 0.94));
+      border: 1px solid var(--line);
+      border-radius: calc(var(--radius) + 6px);
+      padding: clamp(1.5rem, 4vw, 3rem);
+      box-shadow: var(--shadow);
+      position: relative;
+      overflow: hidden;
+      margin-bottom: 1.7rem;
+    }
+
+    .hero::before,
+    .hero::after {
+      content: "";
+      position: absolute;
+      border-radius: 999px;
+      pointer-events: none;
+    }
+
+    .hero::before {
+      width: 240px;
+      height: 240px;
+      background: rgba(0, 122, 108, 0.14);
+      right: -70px;
+      top: -95px;
+    }
+
+    .hero::after {
+      width: 180px;
+      height: 180px;
+      background: rgba(200, 95, 44, 0.16);
+      right: 90px;
+      bottom: -95px;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.3fr 1fr;
+      gap: 1.5rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    h1 {
+      font-size: clamp(2.1rem, 5vw, 3.8rem);
+      line-height: 1.08;
+      letter-spacing: -0.015em;
+      margin-bottom: 0.55rem;
+    }
+
+    .subtitle {
+      font-size: clamp(1rem, 2.3vw, 1.25rem);
+      color: var(--muted);
+      margin-bottom: 1rem;
+      max-width: 45ch;
+    }
+
+    .lead {
+      font-family: "IBM Plex Serif", Georgia, serif;
+      font-size: 1.08rem;
+      color: #2f2a25;
+      max-width: 58ch;
+    }
+
+    .hero-right {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 0.8rem;
+    }
+
+    .fact {
+      background: rgba(255, 255, 255, 0.86);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 0.8rem 0.9rem;
+    }
+
+    .fact .label {
+      text-transform: uppercase;
+      font-size: 0.73rem;
+      letter-spacing: 0.08em;
+      color: var(--muted);
+      margin-bottom: 0.35rem;
+      display: block;
+    }
+
+    .fact .value {
+      font-size: 0.95rem;
+      font-weight: 600;
+    }
+
+    .cta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.8rem;
+      margin-top: 1.3rem;
+    }
+
+    .button {
+      text-decoration: none;
+      border-radius: 999px;
+      padding: 0.66rem 1.15rem;
+      font-weight: 700;
+      font-size: 0.9rem;
+      transition: transform 0.2s ease, filter 0.2s ease;
+    }
+
+    .button.primary {
+      background: var(--accent-3);
+      color: #fff;
+    }
+
+    .button.secondary {
+      background: #fff;
+      color: var(--accent-3);
+      border: 1px solid var(--line);
+    }
+
+    .button:hover {
+      transform: translateY(-1px);
+      filter: brightness(1.03);
+    }
+
+    .sections {
+      display: grid;
+      gap: 1rem;
+      grid-template-columns: repeat(12, 1fr);
+    }
+
+    .card {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 1.2rem;
+      box-shadow: 0 8px 22px rgba(24, 49, 83, 0.08);
+    }
+
+    .card h2 {
+      font-size: 1.05rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-bottom: 0.85rem;
+      color: var(--accent-3);
+    }
+
+    .card ul {
+      padding-left: 1.1rem;
+      display: grid;
+      gap: 0.55rem;
+      color: #2c2926;
+    }
+
+    .card li {
+      padding-left: 0.16rem;
+    }
+
+    .card em {
+      color: var(--muted);
+      font-style: normal;
+      font-weight: 500;
+    }
+
+    .national {
+      grid-column: span 7;
+    }
+
+    .school {
+      grid-column: span 5;
+    }
+
+    .research {
+      grid-column: span 7;
+      background: linear-gradient(180deg, #f6fdfb 0%, #f9fffe 100%);
+    }
+
+    .projects {
+      grid-column: span 5;
+      background: linear-gradient(180deg, #fff9f5 0%, #fffefc 100%);
+    }
+
+    .projects a,
+    .footer a {
+      color: var(--accent);
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .projects a:hover,
+    .footer a:hover {
+      text-decoration: underline;
+    }
+
+    .footer {
+      margin-top: 1.8rem;
+      padding: 1rem 1.1rem;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+      flex-wrap: wrap;
+      font-size: 0.92rem;
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(12px);
+      animation: rise 560ms ease forwards;
+    }
+
+    .delay-1 { animation-delay: 80ms; }
+    .delay-2 { animation-delay: 170ms; }
+    .delay-3 { animation-delay: 250ms; }
+    .delay-4 { animation-delay: 330ms; }
+
+    @keyframes rise {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @media (max-width: 920px) {
+      .hero-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .national,
+      .school,
+      .research,
+      .projects {
+        grid-column: span 12;
+      }
+    }
+
+    @media (max-width: 560px) {
+      .page {
+        width: min(var(--max), calc(100% - 1rem));
+      }
+
+      .hero,
+      .card {
+        border-radius: 14px;
+      }
+
+      h1 {
+        line-height: 1.12;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <header class="topbar reveal">
+      <div class="nameplate">Kyle Lin</div>
+      <a href="mailto:kyle.z.lin@gmail.com">kyle.z.lin@gmail.com</a>
+    </header>
+
+    <section class="hero reveal delay-1">
+      <div class="hero-grid">
+        <div>
+          <h1>Kyle Lin</h1>
+          <p class="subtitle">St. Mark's School of Texas, Class of 2028</p>
+          <p class="lead">
+            Student researcher and competitive problem solver with national recognition in
+            mathematics, computer science, and public speaking.
+          </p>
+          <div class="cta">
+            <a class="button primary" href="https://github.com/kylezlin-hub" target="_blank" rel="noopener noreferrer">View GitHub</a>
+            <a class="button secondary" href="#research">Research Focus</a>
+          </div>
+        </div>
+        <aside class="hero-right">
+          <div class="fact">
+            <span class="label">Current</span>
+            <span class="value">UTD AI Safety Lab Research Intern (Summer 2026)</span>
+          </div>
+          <div class="fact">
+            <span class="label">Highlight</span>
+            <span class="value">MOP Camper (2025)</span>
+          </div>
+          <div class="fact">
+            <span class="label">Location</span>
+            <span class="value">Dallas, Texas</span>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section class="sections">
+      <article class="card national reveal delay-2">
+        <h2>National Honors</h2>
+        <ul>
+          <li><strong>Mathematical Olympiad Program (MOP) Camper</strong> (2025) - Invited to the U.S. Mathematical Olympiad summer training program for top-performing students nationwide.</li>
+          <li><strong>USA Junior Mathematical Olympiad (USAJMO)</strong> - Top Honor Award (2025); Honorable Mention (2026)</li>
+          <li><strong>1st Place, ACSL Intermediate 5 Programming Contest</strong> (2026) - Perfect scores in all four rounds.</li>
+          <li><strong>Poetry Out Loud National Recitation Contest</strong> - State Finalist (2025)</li>
+          <li><strong>National Latin Exam</strong> - Silver Medalist (2025)</li>
+        </ul>
+      </article>
+
+      <article class="card school reveal delay-3">
+        <h2>School Honors</h2>
+        <ul>
+          <li>Outstanding Achievement in Calculus Award (2026)</li>
+          <li>History and Social Science Award (2025)</li>
+          <li>Community Service Gold Award (2026)</li>
+        </ul>
+      </article>
+
+      <article class="card research reveal delay-3" id="research">
+        <h2>Research Experience</h2>
+        <ul>
+          <li><strong>UTD AI Safety Lab Research Intern</strong> (Summer 2026), advised by Prof. Feng Chen.</li>
+          <li><strong>Project:</strong> Adaptive Influence Balancing for Multi-Agent LLM Debates.</li>
+          <li><em>Interest areas:</em> AI safety, multi-agent systems, and robust evaluation methods.</li>
+        </ul>
+      </article>
+
+      <article class="card projects reveal delay-4">
+        <h2>Selected Projects</h2>
+        <ul>
+          <li><a href="https://github.com/kylezlin-hub/kaggle_load_solar_wind_forecast" target="_blank" rel="noopener noreferrer">kaggle_load_solar_wind_forecast</a></li>
+          <li><a href="https://github.com/kylezlin-hub/UTD_SummerResearch_TestProblem" target="_blank" rel="noopener noreferrer">UTD_SummerResearch_TestProblem</a></li>
+          <li><a href="https://github.com/kylezlin-hub/kaggle_Predict_Customer_Churn" target="_blank" rel="noopener noreferrer">kaggle_Predict_Customer_Churn</a></li>
+          <li><a href="https://github.com/kylezlin-hub/kylezlin-hub.github.io" target="_blank" rel="noopener noreferrer">kylezlin-hub.github.io</a></li>
+        </ul>
+      </article>
+    </section>
+
+    <footer class="footer reveal delay-4">
+      <span>Built with GitHub Pages.</span>
+      <span><a href="https://github.com/kylezlin-hub" target="_blank" rel="noopener noreferrer">github.com/kylezlin-hub</a></span>
+    </footer>
+  </main>
+</body>
+</html>
