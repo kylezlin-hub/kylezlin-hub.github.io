@@ -59,8 +59,17 @@
       justify-content: space-between;
       align-items: center;
       gap: 1rem;
-      flex-wrap: wrap;
+      flex-wrap: nowrap;
       margin-bottom: 2.5rem;
+    }
+
+    .topbar-contact {
+      display: flex;
+      align-items: center;
+      gap: 0.45rem;
+      flex-wrap: nowrap;
+      white-space: nowrap;
+      min-width: 0;
     }
 
     .nameplate {
@@ -80,6 +89,7 @@
       border-radius: 999px;
       background: rgba(255, 255, 255, 0.6);
       transition: transform 0.2s ease, border-color 0.2s ease;
+      white-space: nowrap;
     }
 
     .topbar a:hover {
@@ -357,6 +367,52 @@
       background: linear-gradient(180deg, #f6f5ff 0%, #fffefe 100%);
     }
 
+    .funfacts-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 0.9rem;
+      margin-top: 0.2rem;
+    }
+
+    .funfacts-card {
+      text-decoration: none;
+      color: inherit;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: rgba(255, 255, 255, 0.75);
+      padding: 0.55rem;
+      transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+    }
+
+    .funfacts-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 18px rgba(24, 49, 83, 0.12);
+      border-color: rgba(24, 49, 83, 0.26);
+    }
+
+    .funfacts-thumb {
+      width: 100%;
+      aspect-ratio: 4 / 3;
+      object-fit: cover;
+      border-radius: 10px;
+      border: 1px solid var(--line);
+      background: #ece8e1;
+      margin-bottom: 0.5rem;
+    }
+
+    .funfacts-card h3 {
+      font-size: 0.92rem;
+      margin-bottom: 0.2rem;
+      color: var(--accent-3);
+      letter-spacing: 0.01em;
+    }
+
+    .funfacts-card p {
+      font-size: 0.82rem;
+      color: var(--muted);
+      line-height: 1.4;
+    }
+
     .credential-item {
       display: flex;
       justify-content: space-between;
@@ -475,6 +531,10 @@
       .fact-grid {
         grid-template-columns: 1fr;
       }
+
+      .funfacts-grid {
+        grid-template-columns: 1fr;
+      }
     }
   </style>
 </head>
@@ -483,7 +543,11 @@
   <main class="page">
     <header class="topbar reveal">
       <div class="nameplate">Kyle Lin</div>
-      <a href="mailto:kyle.z.lin@gmail.com">kyle.z.lin@gmail.com</a>
+      <div class="topbar-contact">
+        <a href="mailto:kyle.z.lin@gmail.com">kyle.z.lin@gmail.com</a>
+        <span style="color:var(--muted);">|</span>
+        <a href="https://github.com/kylezlin-hub" target="_blank" rel="noopener noreferrer">GitHub</a>
+      </div>
     </header>
 
     <section class="hero reveal delay-1">
@@ -500,6 +564,7 @@
               rel="noopener noreferrer">View GitHub</a>
             <a class="button secondary" href="#research">Research Focus</a>
             <a class="button secondary" href="fun-facts/index.html">Fun Facts Photos</a>
+            <a class="button secondary" href="resume.html" target="_blank" rel="noopener noreferrer">Download Resume</a>
           </div>
         </div>
         <aside class="hero-right">
@@ -519,11 +584,12 @@
             </div>
             <div class="fact">
               <span class="label">Highlight</span>
-              <span class="value">MOP Camper (2025)</span>
+              <span class="value">MOP Camper (2025)
+                USAJMO Awardee (2025,2026) </span>
             </div>
             <div class="fact">
               <span class="label">Research Interests</span>
-              <span class="value">Renewable energy, power systems, AI, uncertainty quantification</span>
+              <span class="value">Renewable energy, Power Systems, AI, Uncertainty Quantification</span>
             </div>
             <div class="fact">
               <span class="label">Location</span>
@@ -542,7 +608,8 @@
           intersection of math, AI, and real-world problem-solving. Much of my recent work has focused on renewable
           energy and power systems, where I use machine learning to study load, solar, and wind behavior and better
           understand uncertainty and risk in power systems. I also had the opportunity to intern at the UTD AI Safety
-          Lab, where I explored multi-agent LLM research and uncertainty quantification. Outside of research, I enjoy
+          Lab, where I explored multi-agent LLM research and uncertainty quantification methods. Outside of research, I
+          enjoy
           studying
           advanced math and computer science, building independent projects, and applying what I learn to real-world
           problems. I am active in Improv Club, which has strengthened my confidence and communication, and I also enjoy
@@ -557,7 +624,8 @@
         <ul>
           <li><strong>Mathematical Olympiad Program (MOP) Camper</strong> (2025) - Invited to the U.S. Mathematical
             Olympiad summer training program for top-performing students nationwide.</li>
-          <li><strong>USA Junior Mathematical Olympiad (USAJMO)</strong> - Top Honor Award (2025); Honorable Mention
+          <li><strong>USA Junior Mathematical Olympiad (USAJMO) Awardee</strong> - Top Honor Award (2025); Honorable
+            Mention
             (2026)</li>
           <li><strong>1st Place, ACSL Intermediate 5 Programming Contest</strong> (2026) - Perfect scores in all four
             rounds.</li>
@@ -598,16 +666,19 @@
       <article class="card technical reveal delay-4">
         <h2>Research &amp; Technical Projects</h2>
         <ul>
-          <li><strong>Renewable Grid Risk Analysis</strong> (2026, independent research) - Developed a computational
-            framework to quantify net-load variability under increasing renewable penetration scenarios.</li>
+          <li><strong>High Renewable Penetration Power System Risk Analysis</strong> (2026, independent research) -
+            Developed a computational
+            framework to quantify net-load variability under increasing renewable penetration scenarios, focusing on
+            uncertainty quantification and reliability assessment of net-load ramping rates.</li>
+          <li><strong>AI Safety Lab Research Intern, University of Dallas</strong> (2026) - Adaptive Influence Balancing
+            for Multi-Agent LLM Debates. Investigated reliability/uncertainty quantification methods for LLM multi-agent
+            systems.</li>
           <li>Analyzed ERCOT historical load and renewable generation data (solar and wind), including seasonality,
             weather sensitivity, and operational volatility.</li>
           <li><strong>Kaggle Electricity Balance Forecast</strong> - Built an end-to-end ML pipeline for forecasting
             electricity balance from weather and calendar signals using direct and component modeling strategies.</li>
           <li>Compared model families and validation outcomes with explicit error analysis to improve reliability under
             uncertainty.</li>
-          <li><strong>AI Safety Lab Research Intern, University of Dallas</strong> (2026) - Adaptive Influence Balancing
-            for Multi-Agent LLM Debates.</li>
           <li><strong>UTD Summer Research Test Problem</strong> - Designed and evaluated CNN variants for vehicle image
             classification, selecting architecture based on accuracy-overfitting tradeoffs.</li>
           <li>Maintains a public GitHub portfolio with independent research, AI applications, and mathematical modeling
@@ -623,7 +694,7 @@
           <li class="credential-item">
             <span><strong>MOP Camper (2025)</strong> - Verification document</span>
             <a class="credential-link"
-              href="credentials/viewer.html?file=mop-2025-proof.pdf&title=MOP%20Camper%20(2025)&page=3" target="_blank"
+              href="credentials/viewer.html?file=mop-2025-proof.pdf&title=MOP%20Camper%20(2025)&page=1" target="_blank"
               rel="noopener noreferrer">View verification</a>
           </li>
           <li class="credential-item">
@@ -643,9 +714,29 @@
 
       <article class="card funfacts reveal delay-4">
         <h2>Fun Facts Gallery</h2>
-        <ul>
-          <li>Open gallery: <a href="fun-facts/index.html">fun-facts/index.html</a></li>
-        </ul>
+        <div class="funfacts-grid">
+          <a class="funfacts-card" href="fun-facts/community-service/index.html">
+            <img id="home-preview-community-service" class="funfacts-thumb"
+              src="fun-facts/community-service/20260228_112849.jpg" alt="Community Service preview" />
+            <h3>Community Service</h3>
+            <p>Volunteer and outreach highlights.</p>
+          </a>
+          <a class="funfacts-card" href="fun-facts/mop2025/index.html">
+            <img id="home-preview-mop2025" class="funfacts-thumb" src="fun-facts/mop2025/mmexport1750452668201.jpg"
+              alt="MOP 2025 preview" />
+            <h3>Mathematical Olympiad Program (MOP) 2025</h3>
+            <p>Snapshots from MOP camp and activities.</p>
+          </a>
+          <a class="funfacts-card" href="fun-facts/power-plant/index.html">
+            <img id="home-preview-power-plant" class="funfacts-thumb" src="fun-facts/power-plant/IMG20260330192517.jpg"
+              alt="Power Plant Visit preview" />
+            <h3>Power Plant Visit</h3>
+            <p>Field visit moments and energy system views.</p>
+          </a>
+        </div>
+        <p style="margin-top:0.8rem; font-size:0.88rem; color: var(--muted);">
+          See full gallery: <a href="fun-facts/index.html">fun-facts/index.html</a>
+        </p>
       </article>
     </section>
 
@@ -655,6 +746,32 @@
           rel="noopener noreferrer">github.com/kylezlin-hub</a></span>
     </footer>
   </main>
+
+  <script>
+    async function setHomePreviewFromManifest(folder, imageId) {
+      const img = document.getElementById(imageId);
+      if (!img) return;
+
+      try {
+        const manifestUrl = `fun-facts/${folder}/photos.json?t=${Date.now()}`;
+        const response = await fetch(manifestUrl, { cache: 'no-store' });
+        if (!response.ok) return;
+
+        const data = await response.json();
+        const photos = data.photos || [];
+        if (photos.length === 0) return;
+
+        const version = encodeURIComponent(data.updated || Date.now());
+        img.src = `fun-facts/${folder}/${photos[0]}?v=${version}`;
+      } catch (error) {
+        console.error(`Failed to load homepage preview for ${folder}:`, error);
+      }
+    }
+
+    setHomePreviewFromManifest('community-service', 'home-preview-community-service');
+    setHomePreviewFromManifest('mop2025', 'home-preview-mop2025');
+    setHomePreviewFromManifest('power-plant', 'home-preview-power-plant');
+  </script>
 </body>
 
 </html>

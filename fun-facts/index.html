@@ -71,7 +71,7 @@
 
         .grid {
             display: grid;
-            grid-template-columns: repeat(3, minmax(0, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
             gap: 1rem;
         }
 
@@ -164,6 +164,16 @@
                     View photos from power plant visit and related activities.
                 </p>
             </a>
+
+            <a href="drama-play/index.html" class="card"
+                style="text-decoration: none; color: inherit; cursor: pointer;">
+                <h2>Drama Play</h2>
+                <img id="preview-drama-play" class="preview" src="drama-play/drama1.PNG"
+                    alt="Drama play photos" />
+                <p>
+                    View photos from drama performances and rehearsals.
+                </p>
+            </a>
         </section>
     </main>
 
@@ -191,6 +201,7 @@
         setPreviewFromManifest('community-service', 'preview-community-service');
         setPreviewFromManifest('mop2025', 'preview-mop2025');
         setPreviewFromManifest('power-plant', 'preview-power-plant');
+        setPreviewFromManifest('drama-play', 'preview-drama-play');
     </script>
 </body>
 

@@ -116,10 +116,34 @@
                 grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
             }
         }
+
+        .lightbox {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.88);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            cursor: zoom-out;
+        }
+        .lightbox.active { display: flex; }
+        .lightbox img { max-width: 92vw; max-height: 92vh; object-fit: contain; border-radius: 8px; box-shadow: 0 8px 40px rgba(0,0,0,0.6); cursor: default; }
+        .lightbox-close { position: absolute; top: 1rem; right: 1.2rem; color: #fff; font-size: 2rem; cursor: pointer; line-height: 1; user-select: none; }
+        .lightbox-prev, .lightbox-next { position: absolute; top: 50%; transform: translateY(-50%); color: #fff; font-size: 2.4rem; cursor: pointer; user-select: none; padding: 0.5rem 1rem; background: rgba(0,0,0,0.3); border-radius: 8px; }
+        .lightbox-prev { left: 0.8rem; }
+        .lightbox-next { right: 0.8rem; }
     </style>
 </head>
 
 <body>
+    <div class="lightbox" id="lightbox">
+        <span class="lightbox-close" id="lightbox-close">&times;</span>
+        <span class="lightbox-prev" id="lightbox-prev">&#8249;</span>
+        <img id="lightbox-img" src="" alt="Full size photo" />
+        <span class="lightbox-next" id="lightbox-next">&#8250;</span>
+    </div>
+
     <main class="page">
         <div class="top">
             <h1 class="title">Power Plant Visit</h1>
@@ -146,12 +170,24 @@
                     gallery.innerHTML = '<div class="empty"><p>No photos in this gallery yet.</p></div>';
                 } else {
                     gallery.innerHTML = '';
-                    images.forEach(img => {
+                    let allImages = [];
+                    images.forEach((img, index) => {
                         const photo = document.createElement('div');
                         photo.className = 'photo';
-                        photo.innerHTML = `<img src="${img}?v=${imageVersion}" alt="Power plant visit photo" loading="lazy" />`;
+                        const src = `${img}?v=${imageVersion}`;
+                        photo.innerHTML = `<img src="${src}" alt="Power plant visit photo" loading="lazy" />`;
+                        photo.addEventListener('click', () => openLightbox(index));
                         gallery.appendChild(photo);
+                        allImages.push(src);
                     });
+                    let currentIndex = 0;
+                    function openLightbox(i) { currentIndex = i; document.getElementById('lightbox-img').src = allImages[currentIndex]; document.getElementById('lightbox').classList.add('active'); }
+                    function closeLightbox() { document.getElementById('lightbox').classList.remove('active'); }
+                    document.getElementById('lightbox-close').addEventListener('click', closeLightbox);
+                    document.getElementById('lightbox').addEventListener('click', e => { if (e.target === document.getElementById('lightbox')) closeLightbox(); });
+                    document.getElementById('lightbox-prev').addEventListener('click', e => { e.stopPropagation(); currentIndex = (currentIndex - 1 + allImages.length) % allImages.length; document.getElementById('lightbox-img').src = allImages[currentIndex]; });
+                    document.getElementById('lightbox-next').addEventListener('click', e => { e.stopPropagation(); currentIndex = (currentIndex + 1) % allImages.length; document.getElementById('lightbox-img').src = allImages[currentIndex]; });
+                    document.addEventListener('keydown', e => { if (!document.getElementById('lightbox').classList.contains('active')) return; if (e.key === 'Escape') closeLightbox(); if (e.key === 'ArrowLeft') { currentIndex = (currentIndex - 1 + allImages.length) % allImages.length; document.getElementById('lightbox-img').src = allImages[currentIndex]; } if (e.key === 'ArrowRight') { currentIndex = (currentIndex + 1) % allImages.length; document.getElementById('lightbox-img').src = allImages[currentIndex]; } });
                 }
             })
             .catch(err => {

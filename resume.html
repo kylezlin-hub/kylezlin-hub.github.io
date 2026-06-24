@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Kyle Lin | College Board Resume</title>
+    <style>
+        :root {
+            --paper: #ffffff;
+            --bg: #f2efe9;
+            --ink: #1e1b16;
+            --muted: #5a534b;
+            --line: #d8cec0;
+            --accent: #183153;
+            --accent2: #007a6c;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: "Segoe UI", Tahoma, sans-serif;
+            color: var(--ink);
+            background: linear-gradient(140deg, #faf6f0 0%, #f0ece6 100%);
+            line-height: 1.35;
+            padding: 1rem;
+        }
+
+        .toolbar {
+            max-width: 850px;
+            margin: 0 auto 0.8rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 0.7rem;
+            flex-wrap: wrap;
+        }
+
+        .toolbar a,
+        .toolbar button {
+            border: 1px solid var(--line);
+            background: #fff;
+            color: var(--accent);
+            border-radius: 999px;
+            padding: 0.4rem 0.8rem;
+            font-size: 0.88rem;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .toolbar button.primary {
+            background: var(--accent);
+            color: #fff;
+            border-color: var(--accent);
+            font-weight: 600;
+        }
+
+        .resume {
+            max-width: 850px;
+            margin: 0 auto;
+            background: var(--paper);
+            border: 1px solid var(--line);
+            box-shadow: 0 8px 24px rgba(24, 49, 83, 0.12);
+            padding: 1rem 1.15rem;
+        }
+
+        .header {
+            border-bottom: 2px solid var(--accent);
+            padding-bottom: 0.6rem;
+            margin-bottom: 0.8rem;
+        }
+
+        .header-top {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            flex-wrap: nowrap;
+        }
+
+        .resume-headshot {
+            width: 52px;
+            height: 52px;
+            border-radius: 999px;
+            object-fit: cover;
+            border: 1px solid var(--line);
+            background: #ece8e1;
+            box-shadow: 0 3px 10px rgba(24, 49, 83, 0.08);
+            flex: 0 0 auto;
+        }
+
+        .header-text {
+            min-width: 0;
+        }
+
+        .name {
+            font-size: 1.55rem;
+            font-weight: 700;
+            letter-spacing: 0.01em;
+            color: var(--accent);
+        }
+
+        .meta {
+            margin-top: 0.22rem;
+            font-size: 0.9rem;
+            color: var(--muted);
+        }
+
+        .meta-link {
+            margin-top: 0.14rem;
+            font-size: 0.86rem;
+        }
+
+        .meta-link a {
+            color: var(--accent);
+            text-decoration: none;
+            border-bottom: 1px solid rgba(24, 49, 83, 0.2);
+        }
+
+        .meta-link a:hover {
+            text-decoration: underline;
+        }
+
+        .section {
+            margin-top: 0.66rem;
+        }
+
+        .resume-grid {
+            display: grid;
+            grid-template-columns: 0.95fr 1.55fr;
+            gap: 0.95rem;
+            align-items: start;
+        }
+
+        .column .section:first-child {
+            margin-top: 0;
+        }
+
+        .column.left {
+            background: #f5f6f7;
+            border: 1px solid #e3e6ea;
+            border-radius: 10px;
+            padding: 0.6rem 0.65rem;
+        }
+
+        .section h2 {
+            font-size: 0.92rem;
+            color: var(--accent);
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            border-bottom: 1px solid var(--line);
+            padding-bottom: 0.16rem;
+            margin-bottom: 0.28rem;
+        }
+
+        .row {
+            display: flex;
+            justify-content: space-between;
+            gap: 1rem;
+            align-items: baseline;
+            flex-wrap: wrap;
+            margin-bottom: 0.12rem;
+        }
+
+        .row strong {
+            font-size: 0.92rem;
+        }
+
+        .date {
+            color: var(--muted);
+            font-size: 0.84rem;
+            white-space: nowrap;
+        }
+
+        ul {
+            padding-left: 1.1rem;
+            margin-top: 0.2rem;
+            display: grid;
+            gap: 0.1rem;
+            font-size: 0.83rem;
+        }
+
+        .sub {
+            font-size: 0.86rem;
+            color: #2a2520;
+        }
+
+        .compact {
+            margin-top: 0.12rem;
+            color: var(--muted);
+            font-size: 0.82rem;
+        }
+
+        .skills-line {
+            font-size: 0.84rem;
+            margin-top: 0.16rem;
+        }
+
+        .skills-line strong {
+            color: #2c2823;
+        }
+
+        @media print {
+            @page {
+                size: letter;
+                margin: 0.4in;
+            }
+
+            body {
+                background: #fff;
+                padding: 0;
+            }
+
+            .toolbar {
+                display: none;
+            }
+
+            .resume {
+                border: none;
+                box-shadow: none;
+                max-width: none;
+                margin: 0;
+                padding: 0;
+            }
+
+            .resume-grid {
+                grid-template-columns: 0.95fr 1.55fr;
+                gap: 0.62rem;
+            }
+
+            .header {
+                padding-bottom: 0.42rem;
+                margin-bottom: 0.52rem;
+            }
+
+            .name {
+                font-size: 1.46rem;
+            }
+
+            .meta {
+                font-size: 0.84rem;
+                margin-top: 0.12rem;
+            }
+
+            .section {
+                margin-top: 0.52rem;
+            }
+
+            ul {
+                font-size: 0.81rem;
+                gap: 0.08rem;
+                margin-top: 0.14rem;
+            }
+
+            .skills-line {
+                font-size: 0.81rem;
+                margin-top: 0.12rem;
+            }
+        }
+
+        @media (max-width: 700px) {
+            .resume {
+                padding: 0.9rem;
+            }
+
+            .resume-grid {
+                grid-template-columns: 1fr;
+                gap: 0;
+            }
+
+            .name {
+                font-size: 1.35rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="toolbar">
+        <a href="index.html">Back to homepage</a>
+        <button id="downloadBtn" class="primary" type="button">Download as PDF</button>
+    </div>
+
+    <main class="resume" aria-label="Resume">
+        <header class="header">
+            <div class="header-top">
+                <img class="resume-headshot" src="https://avatars.githubusercontent.com/u/264223407?v=4"
+                    alt="Kyle Lin headshot" />
+                <div class="header-text">
+                    <div class="name">Kyle Lin</div>
+                    <div class="meta">St. Mark's School of Texas, Class of 2028 | Dallas, Texas | kyle.z.lin@gmail.com |
+                        <a href="https://github.com/kylezlin-hub" target="_blank"
+                            rel="noopener noreferrer">https://github.com/kylezlin-hub</a> | <strong>Unweighted GPA:
+                            4.0</strong>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <div class="resume-grid">
+            <div class="column left">
+                <section class="section">
+                    <h2>Skills & Interests</h2>
+                    <div class="skills-line"><strong>Technical:</strong> Python programming, ML & deep learning models,
+                        LLM, uncertainty quantification.</div>
+                    <div class="skills-line"><strong>Performance & Communication:</strong> Drama play, Improv, poetry
+                        recitation.</div>
+                    <div class="skills-line"><strong>AP Exams:</strong> AP Calculus BC (5), AP World History (5), AP
+                        Physics 1 (5)</div>
+                    <div class="skills-line"><strong>Interests:</strong> Drama, Mathematics & Physics, AI, Energy
+                        System,
+                        History.</div>
+                </section>
+
+                <section class="section">
+                    <h2>Leadership & Service</h2>
+                    <ul>
+                        <li><strong>School MATHCOUNTS Team Coach</strong> - Coach and mentor in competitive mathematics
+                        </li>
+                        <li><strong>The Food Lounge Dallas Chapter</strong> - Director of Marketing and active service
+                            member</li>
+                        <li><strong>LOGISTEM - Promote STEM to Youth</strong> - Senior Math Lecturer, Science and Math
+                            Tournaments organizer and problem writer</li>
+                    </ul>
+                </section>
+
+                <section class="section">
+                    <h2>Activities</h2>
+                    <ul>
+                        <li>High School Math Team competitor in advanced mathematics contests</li>
+                        <li>Improv performer with regular live performances and unscripted collaboration</li>
+                        <li>ISAS Play "The Play That Goes Wrong" - Role: Robert Grove</li>
+                        <li>Junior Varsity Water Polo and Junior Varsity Swimming</li>
+                        <li>Mental Health Club participant</li>
+                    </ul>
+                </section>
+            </div>
+
+            <div class="column right">
+                <section class="section">
+                    <h2>Honors & Awards</h2>
+                    <ul>
+                        <li>Mathematical Olympiad Program (MOP) Camper, 2025</li>
+                        <li>USA Junior Mathematical Olympiad (USAJMO) Awardee: Top Honor (2025), Honorable Mention
+                            (2026)</li>
+                        <li>1st Place, ACSL Intermediate 5 Programming Contest (2026), perfect scores in all four rounds
+                        </li>
+                        <li>National Latin Exam - Silver Medalist (2025)</li>
+                        <li>Poetry Out Loud National Recitation Contest, State Finalist (2025)</li>
+                        <li>Outstanding Achievement in Calculus Award (2026)</li>
+                        <li>Community Service Gold Award (2026)</li>
+                        <li>History and Social Science Award (2025)</li>
+                    </ul>
+                </section>
+
+                <section class="section">
+                    <h2>Research Experience</h2>
+                    <div class="row">
+                        <strong>UTD AI Safety Lab Research Intern</strong>
+                        <span class="date">Summer 2026</span>
+                    </div>
+                    <div class="compact">Advised by Prof. Feng Chen</div>
+                    <ul>
+                        <li>Researched Adaptive Influence Balancing for multi-agent LLM debates with uncertainty-aware
+                            reliability analysis</li>
+                    </ul>
+
+                    <div class="row" style="margin-top:0.35rem;">
+                        <strong>Independent Research, Renewable Grid Analytics</strong>
+                        <span class="date">2025-Present</span>
+                    </div>
+                    <ul>
+                        <li>Built machine learning workflows for load, solar, and wind forecasting with explicit
+                            uncertainty quantification</li>
+                        <li>Analyzed ERCOT seasonality, weather sensitivity, and operational volatility in power systems
+                        </li>
+                    </ul>
+                </section>
+
+                <section class="section">
+                    <h2>Selected Independent Projects</h2>
+                    <ul>
+                        <li><strong>Renewable Grid Risk Analysis:</strong> Developed a framework for net-load
+                            variability and ramping risk under high renewable penetration</li>
+                        <li><strong>Kaggle Electricity Balance Forecast Competition:</strong> Built and compared direct
+                            vs. component forecasting pipelines, with a tuned component approach achieving stronger
+                            validation MAE/RMSE for load-solar-wind balance prediction</li>
+                        <li><strong>Kaggle Predict Customer Churn Competition:</strong> Built and blended
+                            HistGradientBoosting and CatBoost models, achieving a score of 0.91346 in binary churn
+                            prediction</li>
+                    </ul>
+                </section>
+
+                <section class="section">
+                    <h2>Additional Achievement</h2>
+                    <ul>
+                        <li><strong>MIT App Inventor Appathon</strong> - 1st Place, Youth Track (2021); co-developed
+                            "Lost-n-Found" as technical lead in a two-person team.</li>
+                    </ul>
+                </section>
+            </div>
+        </div>
+    </main>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+    <script>
+        async function triggerDownload() {
+            const downloadBtn = document.getElementById('downloadBtn');
+            const resumeEl = document.querySelector('.resume');
+            const originalText = downloadBtn.textContent;
+
+            try {
+                if (typeof html2pdf === 'undefined') {
+                    throw new Error('html2pdf library not loaded');
+                }
+
+                downloadBtn.disabled = true;
+                downloadBtn.textContent = 'Generating PDF...';
+
+                const options = {
+                    margin: [0.35, 0.35, 0.35, 0.35],
+                    filename: 'Kyle-Lin-StMark-C2028-Resume.pdf',
+                    image: { type: 'jpeg', quality: 0.98 },
+                    html2canvas: { scale: 2, useCORS: true },
+                    jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' },
+                    pagebreak: { mode: ['avoid-all', 'css', 'legacy'] }
+                };
+
+                await html2pdf().set(options).from(resumeEl).save();
+            } catch (error) {
+                alert('PDF library failed to load. Please refresh and try again. If this continues, check network access to cdnjs.');
+            } finally {
+                downloadBtn.textContent = originalText;
+                downloadBtn.disabled = false;
+            }
+        }
+
+        const downloadBtn = document.getElementById('downloadBtn');
+        downloadBtn.addEventListener('click', triggerDownload);
+
+        const params = new URLSearchParams(window.location.search);
+        if (params.get('download') === '1') {
+            window.addEventListener('load', () => {
+                const autoPrintNotice = document.createElement('div');
+                autoPrintNotice.style.marginTop = '0.6rem';
+                autoPrintNotice.style.fontSize = '0.84rem';
+                autoPrintNotice.style.color = '#5a534b';
+                autoPrintNotice.textContent = 'Click "Download as PDF" to generate and save a clean PDF file.';
+                downloadBtn.parentElement.appendChild(autoPrintNotice);
+            });
+        }
+    </script>
+</body>
+
+</html>

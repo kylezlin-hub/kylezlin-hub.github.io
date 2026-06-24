@@ -4,10 +4,11 @@
 $galleryFolders = @(
     'fun-facts/community-service',
     'fun-facts/mop2025',
-    'fun-facts/power-plant'
+    'fun-facts/power-plant',
+    'fun-facts/drama-play'
 )
 
-$imageExtensions = @('.jpg', '.jpeg', '.png', '.gif', '.webp')
+$imageExtensions = @('.jpg', '.jpeg', '.png', '.gif', '.webp', '.PNG', '.JPG', '.JPEG')
 
 foreach ($folder in $galleryFolders) {
     $folderPath = Join-Path $PSScriptRoot $folder
