@@ -367,14 +367,24 @@
       background: linear-gradient(180deg, #f6f5ff 0%, #fffefe 100%);
     }
 
-    .funfacts-grid {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 0.9rem;
+    .funfacts-carousel {
+      position: relative;
       margin-top: 0.2rem;
     }
 
+    .funfacts-track-wrap {
+      overflow: hidden;
+    }
+
+    .funfacts-grid {
+      display: flex;
+      gap: 0.9rem;
+      transition: transform 0.35s ease;
+      will-change: transform;
+    }
+
     .funfacts-card {
+      flex: 0 0 calc((100% - 1.8rem) / 3);
       text-decoration: none;
       color: inherit;
       border: 1px solid var(--line);
@@ -411,6 +421,45 @@
       font-size: 0.82rem;
       color: var(--muted);
       line-height: 1.4;
+    }
+
+    .funfacts-arrow {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(255, 255, 255, 0.92);
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      width: 2rem;
+      height: 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 1.1rem;
+      color: var(--accent-3);
+      z-index: 2;
+      box-shadow: 0 2px 8px rgba(24, 49, 83, 0.12);
+      transition: background 0.15s ease, box-shadow 0.15s ease;
+      user-select: none;
+    }
+
+    .funfacts-arrow:hover {
+      background: #fff;
+      box-shadow: 0 4px 12px rgba(24, 49, 83, 0.18);
+    }
+
+    .funfacts-arrow.prev {
+      left: -1.1rem;
+    }
+
+    .funfacts-arrow.next {
+      right: -1.1rem;
+    }
+
+    .funfacts-arrow[disabled] {
+      opacity: 0.3;
+      pointer-events: none;
     }
 
     .credential-item {
@@ -714,25 +763,37 @@
 
       <article class="card funfacts reveal delay-4">
         <h2>Fun Facts Gallery</h2>
-        <div class="funfacts-grid">
-          <a class="funfacts-card" href="fun-facts/community-service/index.html">
-            <img id="home-preview-community-service" class="funfacts-thumb"
-              src="fun-facts/community-service/20260228_112849.jpg" alt="Community Service preview" />
-            <h3>Community Service</h3>
-            <p>Volunteer and outreach highlights.</p>
-          </a>
-          <a class="funfacts-card" href="fun-facts/mop2025/index.html">
-            <img id="home-preview-mop2025" class="funfacts-thumb" src="fun-facts/mop2025/mmexport1750452668201.jpg"
-              alt="MOP 2025 preview" />
-            <h3>Mathematical Olympiad Program (MOP) 2025</h3>
-            <p>Snapshots from MOP camp and activities.</p>
-          </a>
-          <a class="funfacts-card" href="fun-facts/power-plant/index.html">
-            <img id="home-preview-power-plant" class="funfacts-thumb" src="fun-facts/power-plant/IMG20260330192517.jpg"
-              alt="Power Plant Visit preview" />
-            <h3>Power Plant Visit</h3>
-            <p>Field visit moments and energy system views.</p>
-          </a>
+        <div class="funfacts-carousel">
+          <button class="funfacts-arrow prev" id="ff-prev" aria-label="Previous">&#8249;</button>
+          <div class="funfacts-track-wrap">
+            <div class="funfacts-grid" id="ff-track">
+              <a class="funfacts-card" href="fun-facts/community-service/index.html">
+                <img id="home-preview-community-service" class="funfacts-thumb"
+                  src="fun-facts/community-service/20260228_112849.jpg" alt="Community Service preview" />
+                <h3>Community Service</h3>
+                <p>Volunteer and outreach highlights.</p>
+              </a>
+              <a class="funfacts-card" href="fun-facts/mop2025/index.html">
+                <img id="home-preview-mop2025" class="funfacts-thumb" src="fun-facts/mop2025/mmexport1750452668201.jpg"
+                  alt="MOP 2025 preview" />
+                <h3>Mathematical Olympiad Program (MOP) 2025</h3>
+                <p>Snapshots from MOP camp and activities.</p>
+              </a>
+              <a class="funfacts-card" href="fun-facts/power-plant/index.html">
+                <img id="home-preview-power-plant" class="funfacts-thumb"
+                  src="fun-facts/power-plant/IMG20260330192517.jpg" alt="Power Plant Visit preview" />
+                <h3>Power Plant Visit</h3>
+                <p>Field visit moments and energy system views.</p>
+              </a>
+              <a class="funfacts-card" href="fun-facts/drama-play/index.html">
+                <img id="home-preview-drama-play" class="funfacts-thumb" src="fun-facts/drama-play/drama1.PNG"
+                  alt="Drama Play preview" />
+                <h3>Drama Play</h3>
+                <p>Drama performances and rehearsal highlights.</p>
+              </a>
+            </div>
+          </div>
+          <button class="funfacts-arrow next" id="ff-next" aria-label="Next">&#8250;</button>
         </div>
         <p style="margin-top:0.8rem; font-size:0.88rem; color: var(--muted);">
           See full gallery: <a href="fun-facts/index.html">fun-facts/index.html</a>
@@ -771,6 +832,39 @@
     setHomePreviewFromManifest('community-service', 'home-preview-community-service');
     setHomePreviewFromManifest('mop2025', 'home-preview-mop2025');
     setHomePreviewFromManifest('power-plant', 'home-preview-power-plant');
+    setHomePreviewFromManifest('drama-play', 'home-preview-drama-play');
+
+    // Carousel logic
+    (function () {
+      const track = document.getElementById('ff-track');
+      const prevBtn = document.getElementById('ff-prev');
+      const nextBtn = document.getElementById('ff-next');
+      if (!track) return;
+
+      const VISIBLE = 3;
+      const cards = track.querySelectorAll('.funfacts-card');
+      const total = cards.length;
+      let current = 0;
+
+      function getCardWidth() {
+        const wrap = track.parentElement;
+        const gap = 0.9 * parseFloat(getComputedStyle(document.documentElement).fontSize);
+        return (wrap.offsetWidth - gap * (VISIBLE - 1)) / VISIBLE;
+      }
+
+      function update() {
+        const gap = 0.9 * parseFloat(getComputedStyle(document.documentElement).fontSize);
+        const cw = getCardWidth();
+        track.style.transform = `translateX(-${current * (cw + gap)}px)`;
+        prevBtn.toggleAttribute('disabled', current === 0);
+        nextBtn.toggleAttribute('disabled', current >= total - VISIBLE);
+      }
+
+      prevBtn.addEventListener('click', () => { if (current > 0) { current--; update(); } });
+      nextBtn.addEventListener('click', () => { if (current < total - VISIBLE) { current++; update(); } });
+      window.addEventListener('resize', () => update());
+      update();
+    })();
   </script>
 </body>
 
