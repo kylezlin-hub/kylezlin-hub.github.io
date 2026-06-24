@@ -138,15 +138,15 @@
         <section class="grid">
             <a href="community-service/index.html" class="card" style="text-decoration: none; color: inherit; cursor: pointer;">
                 <h2>Community Service</h2>
-                <img class="preview" src="community-service/20260228_112849.jpg" alt="Community service photos" />
+                <img id="preview-community-service" class="preview" src="community-service/20260228_112849.jpg" alt="Community service photos" />
                 <p>
                     View your community service photos and volunteer work.
                 </p>
             </a>
 
             <a href="mop2025/index.html" class="card" style="text-decoration: none; color: inherit; cursor: pointer;">
-                <h2>MOP 2025</h2>
-                <img class="preview" src="mop2025/mmexport1750452668201.jpg" alt="Mathematical Olympiad Program 2025" />
+                <h2>Mathematical Olympiad Program (MOP)  2025</h2>
+                <img id="preview-mop2025" class="preview" src="mop2025/mmexport1750452668201.jpg" alt="Mathematical Olympiad Program 2025" />
                 <p>
                     Photos from the Mathematical Olympiad Program (MOP) 2025.
                 </p>
@@ -154,13 +154,39 @@
 
             <a href="power-plant/index.html" class="card" style="text-decoration: none; color: inherit; cursor: pointer;">
                 <h2>Power Plant</h2>
-                <img class="preview" src="power-plant/IMG20260330192517.jpg" alt="Power plant visit photos" />
+                <img id="preview-power-plant" class="preview" src="power-plant/IMG20260330192517.jpg" alt="Power plant visit photos" />
                 <p>
                     View photos from power plant visit and related activities.
                 </p>
             </a>
         </section>
     </main>
+
+    <script>
+        async function setPreviewFromManifest(folder, imageId) {
+            const img = document.getElementById(imageId);
+            if (!img) return;
+
+            try {
+                const manifestUrl = `${folder}/photos.json?t=${Date.now()}`;
+                const response = await fetch(manifestUrl, { cache: 'no-store' });
+                if (!response.ok) return;
+
+                const data = await response.json();
+                const photos = data.photos || [];
+                if (photos.length === 0) return;
+
+                const version = encodeURIComponent(data.updated || Date.now());
+                img.src = `${folder}/${photos[0]}?v=${version}`;
+            } catch (error) {
+                console.error(`Failed to load preview manifest for ${folder}:`, error);
+            }
+        }
+
+        setPreviewFromManifest('community-service', 'preview-community-service');
+        setPreviewFromManifest('mop2025', 'preview-mop2025');
+        setPreviewFromManifest('power-plant', 'preview-power-plant');
+    </script>
 </body>
 
 </html>

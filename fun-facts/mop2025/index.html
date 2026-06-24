@@ -1,159 +1,164 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>MOP 2025 Gallery</title>
-  <style>
-    :root {
-      --bg: #f7f4ef;
-      --ink: #1f1b16;
-      --muted: #5b544d;
-      --line: #d9cfc1;
-      --panel: #fffaf4;
-      --accent: #183153;
-      --accent2: #007a6c;
-    }
-
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    body {
-      font-family: "Segoe UI", sans-serif;
-      color: var(--ink);
-      background: linear-gradient(140deg, #fbf8f3 0%, #f5efe8 54%, #eef4f6 100%);
-      min-height: 100vh;
-    }
-
-    .page {
-      width: min(1100px, calc(100% - 1.4rem));
-      margin: 0 auto;
-      padding: 1.2rem 0 2.2rem;
-    }
-
-    .top {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 0.8rem;
-      flex-wrap: wrap;
-      margin-bottom: 1.6rem;
-    }
-
-    .title {
-      font-size: clamp(1.8rem, 5vw, 2.4rem);
-      color: var(--accent);
-      letter-spacing: -0.01em;
-    }
-
-    .back {
-      text-decoration: none;
-      font-size: 0.92rem;
-      border: 1px solid var(--line);
-      border-radius: 999px;
-      background: #fff;
-      color: var(--accent);
-      padding: 0.42rem 0.8rem;
-      transition: border-color 0.2s ease;
-    }
-
-    .back:hover {
-      border-color: var(--accent);
-    }
-
-    .gallery {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-      gap: 1.2rem;
-    }
-
-    .photo {
-      position: relative;
-      overflow: hidden;
-      border-radius: 14px;
-      border: 1px solid var(--line);
-      aspect-ratio: 4 / 3;
-      background: #f0ece5;
-      cursor: pointer;
-      box-shadow: 0 4px 12px rgba(24, 49, 83, 0.08);
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
-    }
-
-    .photo:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 8px 18px rgba(24, 49, 83, 0.12);
-    }
-
-    .photo img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-    }
-
-    .empty {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-direction: column;
-      gap: 0.8rem;
-      padding: 2rem;
-      text-align: center;
-      color: var(--muted);
-    }
-
-    .empty p {
-      font-size: 0.95rem;
-      max-width: 50ch;
-    }
-
-    @media (max-width: 768px) {
-      .gallery {
-        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-      }
-    }
-  </style>
-</head>
-<body>
-  <main class="page">
-    <div class="top">
-      <h1 class="title">MOP 2025</h1>
-      <a class="back" href="../index.html">← Back to gallery</a>
-    </div>
-    <section class="gallery" id="gallery">
-      <div class="empty">
-        <p>Loading photos...</p>
-      </div>
-    </section>
-  </main>
-
-  <script>
-    // Load photos from manifest
-    fetch('./photos.json')
-      .then(response => response.json())
-      .then(data => {
-        const images = data.photos || [];
-        const gallery = document.getElementById('gallery');
-        
-        if (images.length === 0) {
-          gallery.innerHTML = '<div class="empty"><p>No photos in this gallery yet.</p></div>';
-        } else {
-          gallery.innerHTML = '';
-          images.forEach(img => {
-            const photo = document.createElement('div');
-            photo.className = 'photo';
-            photo.innerHTML = `<img src="${img}" alt="MOP 2025 photo" loading="lazy" />`;
-            gallery.appendChild(photo);
-          });
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mathematical Olympiad Program (MOP) 2025 Gallery</title>
+    <style>
+        :root {
+            --bg: #f7f4ef;
+            --ink: #1f1b16;
+            --muted: #5b544d;
+            --line: #d9cfc1;
+            --panel: #fffaf4;
+            --accent: #183153;
+            --accent2: #007a6c;
         }
-      })
-      .catch(err => {
-        console.error('Failed to load photos:', err);
-        document.getElementById('gallery').innerHTML = '<div class="empty"><p>Error loading gallery.</p></div>';
-      });
-  </script>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: "Segoe UI", sans-serif;
+            color: var(--ink);
+            background: linear-gradient(140deg, #fbf8f3 0%, #f5efe8 54%, #eef4f6 100%);
+            min-height: 100vh;
+        }
+
+        .page {
+            width: min(1100px, calc(100% - 1.4rem));
+            margin: 0 auto;
+            padding: 1.2rem 0 2.2rem;
+        }
+
+        .top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 0.8rem;
+            flex-wrap: wrap;
+            margin-bottom: 1.6rem;
+        }
+
+        .title {
+            font-size: clamp(1.8rem, 5vw, 2.4rem);
+            color: var(--accent);
+            letter-spacing: -0.01em;
+        }
+
+        .back {
+            text-decoration: none;
+            font-size: 0.92rem;
+            border: 1px solid var(--line);
+            border-radius: 999px;
+            background: #fff;
+            color: var(--accent);
+            padding: 0.42rem 0.8rem;
+            transition: border-color 0.2s ease;
+        }
+
+        .back:hover {
+            border-color: var(--accent);
+        }
+
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.2rem;
+        }
+
+        .photo {
+            position: relative;
+            overflow: hidden;
+            border-radius: 14px;
+            border: 1px solid var(--line);
+            aspect-ratio: 4 / 3;
+            background: #f0ece5;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(24, 49, 83, 0.08);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .photo:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 18px rgba(24, 49, 83, 0.12);
+        }
+
+        .photo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .empty {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            gap: 0.8rem;
+            padding: 2rem;
+            text-align: center;
+            color: var(--muted);
+        }
+
+        .empty p {
+            font-size: 0.95rem;
+            max-width: 50ch;
+        }
+
+        @media (max-width: 768px) {
+            .gallery {
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <main class="page">
+        <div class="top">
+            <h1 class="title">Mathematical Olympiad Program (MOP) 2025</h1>
+            <a class="back" href="../index.html">← Back to gallery</a>
+        </div>
+        <section class="gallery" id="gallery">
+            <div class="empty">
+                <p>Loading photos...</p>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        // Load photos from manifest
+        const manifestUrl = `./photos.json?t=${Date.now()}`;
+        fetch(manifestUrl, { cache: 'no-store' })
+            .then(response => response.json())
+            .then(data => {
+                const images = data.photos || [];
+                const imageVersion = encodeURIComponent(data.updated || Date.now());
+                const gallery = document.getElementById('gallery');
+
+                if (images.length === 0) {
+                    gallery.innerHTML = '<div class="empty"><p>No photos in this gallery yet.</p></div>';
+                } else {
+                    gallery.innerHTML = '';
+                    images.forEach(img => {
+                        const photo = document.createElement('div');
+                        photo.className = 'photo';
+                        photo.innerHTML = `<img src="${img}?v=${imageVersion}" alt="MOP 2025 photo" loading="lazy" />`;
+                        gallery.appendChild(photo);
+                    });
+                }
+            })
+            .catch(err => {
+                console.error('Failed to load photos:', err);
+                document.getElementById('gallery').innerHTML = '<div class="empty"><p>Error loading gallery.</p></div>';
+            });
+    </script>
 </body>
+
 </html>
