@@ -318,12 +318,8 @@
       font-weight: 500;
     }
 
-    .national {
-      grid-column: span 7;
-    }
-
-    .school {
-      grid-column: span 5;
+    .honors {
+      grid-column: span 12;
     }
 
     .research {
@@ -339,6 +335,16 @@
     .technical {
       grid-column: span 12;
       background: linear-gradient(180deg, #f2fbff 0%, #fbfefe 100%);
+    }
+
+    .about {
+      grid-column: span 12;
+      background: linear-gradient(180deg, #f7fbff 0%, #fffefe 100%);
+    }
+
+    .about p {
+      color: #2f2a25;
+      line-height: 1.6;
     }
 
     .credentials {
@@ -442,8 +448,7 @@
         align-self: center;
       }
 
-      .national,
-      .school,
+      .honors,
       .research,
       .skills,
       .technical,
@@ -530,8 +535,25 @@
     </section>
 
     <section class="sections">
-      <article class="card national reveal delay-2">
-        <h2>National Honors</h2>
+      <article class="card about reveal delay-2">
+        <h2>About Me</h2>
+        <p>
+          Hi, I'm Kyle Lin, a student at St. Mark's School of Texas (Class of 2028). I love learning at the
+          intersection of math, AI, and real-world problem-solving. Much of my recent work has focused on renewable
+          energy and power systems, where I use machine learning to study load, solar, and wind behavior and better
+          understand uncertainty and risk in power systems. I also had the opportunity to intern at the UTD AI Safety
+          Lab, where I explored multi-agent LLM research and uncertainty quantification. Outside of research, I enjoy
+          studying
+          advanced math and computer science, building independent projects, and applying what I learn to real-world
+          problems. I am active in Improv Club, which has strengthened my confidence and communication, and I also enjoy
+          playing water
+          polo with my teammates and friends. This site is where I share my projects, milestones, and a few fun
+          snapshots from school life.
+        </p>
+      </article>
+
+      <article class="card honors reveal delay-2">
+        <h2>Selected Honors</h2>
         <ul>
           <li><strong>Mathematical Olympiad Program (MOP) Camper</strong> (2025) - Invited to the U.S. Mathematical
             Olympiad summer training program for top-performing students nationwide.</li>
@@ -540,16 +562,8 @@
           <li><strong>1st Place, ACSL Intermediate 5 Programming Contest</strong> (2026) - Perfect scores in all four
             rounds.</li>
           <li><strong>Poetry Out Loud National Recitation Contest</strong> - State Finalist (2025)</li>
-          <li><strong>National Latin Exam</strong> - Silver Medalist (2025)</li>
-        </ul>
-      </article>
-
-      <article class="card school reveal delay-3">
-        <h2>School Honors</h2>
-        <ul>
-          <li>Outstanding Achievement in Calculus Award (2026)</li>
-          <li>History and Social Science Award (2025)</li>
-          <li>Community Service Gold Award (2026)</li>
+          <li><strong>History and Social Science Award</strong> (2025)</li>
+          <li><strong>Outstanding Achievement in Calculus Award</strong> (2026)</li>
         </ul>
       </article>
 
@@ -576,7 +590,6 @@
             behavior interpretation.</li>
           <li><strong>Uncertainty Quantification:</strong> validation-aware model selection, error analysis, and
             robustness-oriented evaluation.</li>
-          <li><strong>Languages:</strong> Latin (academic), Chinese (cultural studies).</li>
           <li><strong>Interests:</strong> Renewable energy, power systems, AI safety, competitive math, and finance.
           </li>
         </ul>
@@ -609,18 +622,21 @@
         <ul>
           <li class="credential-item">
             <span><strong>MOP Camper (2025)</strong> - Verification document</span>
-            <a class="credential-link" href="credentials/viewer.html?file=mop-2025-proof.pdf&title=MOP%20Camper%20(2025)" target="_blank"
+            <a class="credential-link"
+              href="credentials/viewer.html?file=mop-2025-proof.pdf&title=MOP%20Camper%20(2025)" target="_blank"
               rel="noopener noreferrer">View verification</a>
           </li>
           <li class="credential-item">
             <span><strong>USAJMO Top Honor (2025)</strong> - Verification document</span>
-            <a class="credential-link" href="credentials/viewer.html?file=usajmo-2025-proof.pdf&title=USAJMO%20Top%20Honor%20(2025)" target="_blank"
-              rel="noopener noreferrer">View verification</a>
+            <a class="credential-link"
+              href="credentials/viewer.html?file=usajmo-2025-proof.pdf&title=USAJMO%20Top%20Honor%20(2025)"
+              target="_blank" rel="noopener noreferrer">View verification</a>
           </li>
           <li class="credential-item">
             <span><strong>USAJMO Honorable Mention (2026)</strong> - Verification document</span>
-            <a class="credential-link" href="credentials/viewer.html?file=usajmo-2026-proof.pdf&title=USAJMO%20Honorable%20Mention%20(2026)" target="_blank"
-              rel="noopener noreferrer">View verification</a>
+            <a class="credential-link"
+              href="credentials/viewer.html?file=usajmo-2026-proof.pdf&title=USAJMO%20Honorable%20Mention%20(2026)"
+              target="_blank" rel="noopener noreferrer">View verification</a>
           </li>
         </ul>
       </article>
