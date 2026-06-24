@@ -131,32 +131,29 @@
   </main>
 
   <script>
-    const folderPath = './'; // Same folder as this file
-    const imageExtensions = ['.jpg', '.jpeg', '.png', '.gif', '.webp'];
-    const gallery = document.getElementById('gallery');
-
-    // List of images to display (manually set or use a manifest)
-    const images = [
-      '20260228_112849.jpg',
-      'IMG20251122105542.jpg',
-      'IMG20251123091129.jpg',
-      'IMG20251123092018.jpg',
-      'mmexport1765083121985.jpg',
-      'mmexport1774718180061.jpg',
-      'mmexport1774718186656.jpg'
-    ];
-
-    if (images.length === 0) {
-      gallery.innerHTML = '<div class="empty"><p>No photos in this gallery yet. Add images to this folder and they will appear here.</p></div>';
-    } else {
-      gallery.innerHTML = '';
-      images.forEach(img => {
-        const photo = document.createElement('div');
-        photo.className = 'photo';
-        photo.innerHTML = `<img src="${img}" alt="Community service photo" loading="lazy" />`;
-        gallery.appendChild(photo);
+    // Load photos from manifest
+    fetch('./photos.json')
+      .then(response => response.json())
+      .then(data => {
+        const images = data.photos || [];
+        const gallery = document.getElementById('gallery');
+        
+        if (images.length === 0) {
+          gallery.innerHTML = '<div class="empty"><p>No photos in this gallery yet.</p></div>';
+        } else {
+          gallery.innerHTML = '';
+          images.forEach(img => {
+            const photo = document.createElement('div');
+            photo.className = 'photo';
+            photo.innerHTML = `<img src="${img}" alt="Community service photo" loading="lazy" />`;
+            gallery.appendChild(photo);
+          });
+        }
+      })
+      .catch(err => {
+        console.error('Failed to load photos:', err);
+        document.getElementById('gallery').innerHTML = '<div class="empty"><p>Error loading gallery.</p></div>';
       });
-    }
   </script>
 </body>
 </html>

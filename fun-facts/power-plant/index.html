@@ -131,30 +131,29 @@
   </main>
 
   <script>
-    const images = [
-      'IMG20260330192517.jpg',
-      'IMG20260330192703.jpg',
-      'IMG20260330192814.jpg',
-      'IMG20260330192850.jpg',
-      'IMG20260330193053.jpg',
-      'Z_20231226_115943.jpg',
-      'Z_20231226_120023.jpg',
-      'Z_20231226_145557.jpg',
-      'Z_20231226_145600.jpg'
-    ];
-    const gallery = document.getElementById('gallery');
-
-    if (images.length === 0) {
-      gallery.innerHTML = '<div class="empty"><p>No photos in this gallery yet.</p></div>';
-    } else {
-      gallery.innerHTML = '';
-      images.forEach(img => {
-        const photo = document.createElement('div');
-        photo.className = 'photo';
-        photo.innerHTML = `<img src="${img}" alt="Power plant visit photo" loading="lazy" />`;
-        gallery.appendChild(photo);
+    // Load photos from manifest
+    fetch('./photos.json')
+      .then(response => response.json())
+      .then(data => {
+        const images = data.photos || [];
+        const gallery = document.getElementById('gallery');
+        
+        if (images.length === 0) {
+          gallery.innerHTML = '<div class="empty"><p>No photos in this gallery yet.</p></div>';
+        } else {
+          gallery.innerHTML = '';
+          images.forEach(img => {
+            const photo = document.createElement('div');
+            photo.className = 'photo';
+            photo.innerHTML = `<img src="${img}" alt="Power plant visit photo" loading="lazy" />`;
+            gallery.appendChild(photo);
+          });
+        }
+      })
+      .catch(err => {
+        console.error('Failed to load photos:', err);
+        document.getElementById('gallery').innerHTML = '<div class="empty"><p>Error loading gallery.</p></div>';
       });
-    }
   </script>
 </body>
 </html>

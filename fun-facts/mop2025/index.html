@@ -131,28 +131,29 @@
   </main>
 
   <script>
-    const images = [
-      'mmexport1750452668201.jpg',
-      'mmexport1750494757198.jpg',
-      'mmexport1751321849340.jpg',
-      'mmexport1751387124974.jpg',
-      'mmexport1751387288294.jpg',
-      'mmexport1751387400906.jpg',
-      'mmexport1751390769982.jpg'
-    ];
-    const gallery = document.getElementById('gallery');
-
-    if (images.length === 0) {
-      gallery.innerHTML = '<div class="empty"><p>No photos in this gallery yet.</p></div>';
-    } else {
-      gallery.innerHTML = '';
-      images.forEach(img => {
-        const photo = document.createElement('div');
-        photo.className = 'photo';
-        photo.innerHTML = `<img src="${img}" alt="MOP 2025 photo" loading="lazy" />`;
-        gallery.appendChild(photo);
+    // Load photos from manifest
+    fetch('./photos.json')
+      .then(response => response.json())
+      .then(data => {
+        const images = data.photos || [];
+        const gallery = document.getElementById('gallery');
+        
+        if (images.length === 0) {
+          gallery.innerHTML = '<div class="empty"><p>No photos in this gallery yet.</p></div>';
+        } else {
+          gallery.innerHTML = '';
+          images.forEach(img => {
+            const photo = document.createElement('div');
+            photo.className = 'photo';
+            photo.innerHTML = `<img src="${img}" alt="MOP 2025 photo" loading="lazy" />`;
+            gallery.appendChild(photo);
+          });
+        }
+      })
+      .catch(err => {
+        console.error('Failed to load photos:', err);
+        document.getElementById('gallery').innerHTML = '<div class="empty"><p>Error loading gallery.</p></div>';
       });
-    }
   </script>
 </body>
 </html>
