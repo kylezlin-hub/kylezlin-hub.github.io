@@ -1,12 +1,12 @@
 ﻿{
     "photoCount":  7,
     "photos":  [
-                   "_DSC1357.JPG",
-                   "_DSC1358.JPG",
-                   "_DSC1359.JPG",
-                   "_DSC1373.JPG",
                    "DSC_0100.JPG",
                    "DSC_0103.JPG",
+                   "DSC1357.JPG",
+                   "DSC1358.JPG",
+                   "DSC1359.JPG",
+                   "DSC1373.JPG",
                    "waterpolo_vasity.PNG"
                ],
     "videos":  [
@@ -14,6 +14,6 @@
                    "mmexport1651459678152.mp4"
                ],
     "videoCount":  2,
-    "updated":  "2026-06-26T18:35:16Z",
+    "updated":  "2026-06-26T18:57:56Z",
     "count":  9
 }

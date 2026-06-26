@@ -16,6 +16,19 @@ foreach ($folder in $galleryFolders) {
     $folderPath = Join-Path $PSScriptRoot $folder
 
     if (Test-Path $folderPath) {
+        # GitHub Pages (Jekyll) does not serve files starting with "_".
+        # Normalize those filenames so media is accessible remotely.
+        Get-ChildItem $folderPath -File |
+            Where-Object { $_.Name.StartsWith('_') } |
+            ForEach-Object {
+                $targetName = $_.Name.TrimStart('_')
+                $targetPath = Join-Path $folderPath $targetName
+                if (-not (Test-Path $targetPath)) {
+                    Rename-Item -Path $_.FullName -NewName $targetName
+                    Write-Host "Renamed leading-underscore file: $($_.Name) -> $targetName"
+                }
+            }
+
         # Get all image files, sorted by name
         $photos = Get-ChildItem $folderPath -File |
             Where-Object { $imageExtensions -contains $_.Extension.ToLower() } |
