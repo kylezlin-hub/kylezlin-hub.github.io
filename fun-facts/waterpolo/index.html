@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Water Polo Gallery</title>
+    <style>
+        :root {
+            --bg: #f7f4ef;
+            --ink: #1f1b16;
+            --muted: #5b544d;
+            --line: #d9cfc1;
+            --panel: #fffaf4;
+            --accent: #183153;
+            --accent2: #007a6c;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: "Segoe UI", sans-serif;
+            color: var(--ink);
+            background: linear-gradient(140deg, #fbf8f3 0%, #f5efe8 54%, #eef4f6 100%);
+            min-height: 100vh;
+        }
+
+        .page {
+            width: min(1100px, calc(100% - 1.4rem));
+            margin: 0 auto;
+            padding: 1.2rem 0 2.2rem;
+        }
+
+        .top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 0.8rem;
+            flex-wrap: wrap;
+            margin-bottom: 1.6rem;
+        }
+
+        .title {
+            font-size: clamp(1.8rem, 5vw, 2.4rem);
+            color: var(--accent);
+            letter-spacing: -0.01em;
+        }
+
+        .back {
+            text-decoration: none;
+            font-size: 0.92rem;
+            border: 1px solid var(--line);
+            border-radius: 999px;
+            background: #fff;
+            color: var(--accent);
+            padding: 0.42rem 0.8rem;
+            transition: border-color 0.2s ease;
+        }
+
+        .back:hover {
+            border-color: var(--accent);
+        }
+
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.2rem;
+        }
+
+        .photo {
+            position: relative;
+            overflow: hidden;
+            border-radius: 14px;
+            border: 1px solid var(--line);
+            aspect-ratio: 4 / 3;
+            background: #f0ece5;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(24, 49, 83, 0.08);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .photo:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 18px rgba(24, 49, 83, 0.12);
+        }
+
+        .photo img,
+        .photo video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .photo.video {
+            cursor: default;
+        }
+
+        .empty {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            gap: 0.8rem;
+            padding: 2rem;
+            text-align: center;
+            color: var(--muted);
+        }
+
+        .empty p {
+            font-size: 0.95rem;
+            max-width: 50ch;
+        }
+
+        @media (max-width: 768px) {
+            .gallery {
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            }
+        }
+
+        .lightbox {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.88);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            cursor: zoom-out;
+        }
+
+        .lightbox.active {
+            display: flex;
+        }
+
+        .lightbox img {
+            max-width: 92vw;
+            max-height: 92vh;
+            object-fit: contain;
+            border-radius: 8px;
+            box-shadow: 0 8px 40px rgba(0, 0, 0, 0.6);
+            cursor: default;
+        }
+
+        .lightbox-close {
+            position: absolute;
+            top: 1rem;
+            right: 1.2rem;
+            color: #fff;
+            font-size: 2rem;
+            cursor: pointer;
+            line-height: 1;
+            user-select: none;
+        }
+
+        .lightbox-prev,
+        .lightbox-next {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #fff;
+            font-size: 2.4rem;
+            cursor: pointer;
+            user-select: none;
+            padding: 0.5rem 1rem;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 8px;
+        }
+
+        .lightbox-prev {
+            left: 0.8rem;
+        }
+
+        .lightbox-next {
+            right: 0.8rem;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="lightbox" id="lightbox">
+        <span class="lightbox-close" id="lightbox-close">&times;</span>
+        <span class="lightbox-prev" id="lightbox-prev">&#8249;</span>
+        <img id="lightbox-img" src="" alt="Full size water polo photo" />
+        <span class="lightbox-next" id="lightbox-next">&#8250;</span>
+    </div>
+
+    <main class="page">
+        <div class="top">
+            <h1 class="title">Water Polo</h1>
+            <a class="back" href="../index.html">← Back to gallery</a>
+        </div>
+        <section class="gallery" id="gallery">
+            <div class="empty">
+                <p>Loading media...</p>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        // Load photos and videos from manifest
+        const manifestUrl = `./photos.json?t=${Date.now()}`;
+        fetch(manifestUrl, { cache: 'no-store' })
+            .then(response => response.json())
+            .then(data => {
+                const images = data.photos || [];
+                const videos = data.videos || [];
+                const imageVersion = encodeURIComponent(data.updated || Date.now());
+                const gallery = document.getElementById('gallery');
+                const mediaItems = [
+                    ...images.map(file => ({ type: 'image', file })),
+                    ...videos.map(file => ({ type: 'video', file }))
+                ];
+
+                if (mediaItems.length === 0) {
+                    gallery.innerHTML = '<div class="empty"><p>No photos or videos in this gallery yet.</p></div>';
+                } else {
+                    gallery.innerHTML = '';
+                    const allImages = [];
+                    let imageIndex = 0;
+
+                    mediaItems.forEach(item => {
+                        const photo = document.createElement('div');
+                        const src = `${item.file}?v=${imageVersion}`;
+
+                        if (item.type === 'image') {
+                            const lightboxIndex = imageIndex;
+                            photo.className = 'photo';
+                            photo.innerHTML = `<img src="${src}" alt="Water polo photo" loading="lazy" />`;
+                            photo.addEventListener('click', () => openLightbox(lightboxIndex));
+                            allImages.push(src);
+                            imageIndex += 1;
+                        } else {
+                            photo.className = 'photo video';
+                            photo.innerHTML = `<video controls preload="metadata" playsinline><source src="${src}" type="video/mp4" />Your browser does not support video playback.</video>`;
+                        }
+
+                        gallery.appendChild(photo);
+                    });
+
+                    let currentIndex = 0;
+
+                    function openLightbox(index) {
+                        if (allImages.length === 0) return;
+                        currentIndex = index;
+                        document.getElementById('lightbox-img').src = allImages[currentIndex];
+                        document.getElementById('lightbox').classList.add('active');
+                    }
+
+                    function closeLightbox() {
+                        document.getElementById('lightbox').classList.remove('active');
+                    }
+
+                    document.getElementById('lightbox-close').addEventListener('click', closeLightbox);
+                    document.getElementById('lightbox').addEventListener('click', e => {
+                        if (e.target === document.getElementById('lightbox')) closeLightbox();
+                    });
+                    document.getElementById('lightbox-prev').addEventListener('click', e => {
+                        if (allImages.length === 0) return;
+                        e.stopPropagation();
+                        currentIndex = (currentIndex - 1 + allImages.length) % allImages.length;
+                        document.getElementById('lightbox-img').src = allImages[currentIndex];
+                    });
+                    document.getElementById('lightbox-next').addEventListener('click', e => {
+                        if (allImages.length === 0) return;
+                        e.stopPropagation();
+                        currentIndex = (currentIndex + 1) % allImages.length;
+                        document.getElementById('lightbox-img').src = allImages[currentIndex];
+                    });
+                    document.addEventListener('keydown', e => {
+                        if (!document.getElementById('lightbox').classList.contains('active')) return;
+                        if (e.key === 'Escape') closeLightbox();
+                        if (allImages.length === 0) return;
+                        if (e.key === 'ArrowLeft') { currentIndex = (currentIndex - 1 + allImages.length) % allImages.length; document.getElementById('lightbox-img').src = allImages[currentIndex]; }
+                        if (e.key === 'ArrowRight') { currentIndex = (currentIndex + 1) % allImages.length; document.getElementById('lightbox-img').src = allImages[currentIndex]; }
+                    });
+                }
+            })
+            .catch(err => {
+                console.error('Failed to load photos:', err);
+                document.getElementById('gallery').innerHTML = '<div class="empty"><p>Error loading gallery.</p></div>';
+            });
+    </script>
+</body>
+
+</html>

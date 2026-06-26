@@ -101,6 +101,23 @@
             margin-bottom: 0.65rem;
         }
 
+        .media-badge {
+            display: inline-block;
+            margin-bottom: 0.55rem;
+            font-size: 0.78rem;
+            font-weight: 600;
+            letter-spacing: 0.02em;
+            color: #0d4f47;
+            background: #d9f2ec;
+            border: 1px solid #a8dacf;
+            border-radius: 999px;
+            padding: 0.18rem 0.5rem;
+        }
+
+        .media-badge[hidden] {
+            display: none;
+        }
+
         .card p {
             font-size: 0.9rem;
             color: var(--muted);
@@ -174,12 +191,24 @@
                     View photos from drama performances and rehearsals.
                 </p>
             </a>
+
+            <a href="waterpolo/index.html" class="card"
+                style="text-decoration: none; color: inherit; cursor: pointer;">
+                <h2>Water Polo</h2>
+                <img id="preview-waterpolo" class="preview" src="waterpolo/waterpolo_vasity.PNG"
+                    alt="Water polo photos" />
+                <span id="badge-waterpolo" class="media-badge" hidden>Includes video</span>
+                <p>
+                    View photos and highlights from water polo.
+                </p>
+            </a>
         </section>
     </main>
 
     <script>
-        async function setPreviewFromManifest(folder, imageId) {
+        async function setPreviewFromManifest(folder, imageId, badgeId) {
             const img = document.getElementById(imageId);
+            const badge = badgeId ? document.getElementById(badgeId) : null;
             if (!img) return;
 
             try {
@@ -189,10 +218,16 @@
 
                 const data = await response.json();
                 const photos = data.photos || [];
+                const videoCount = data.videoCount || (data.videos || []).length;
                 if (photos.length === 0) return;
 
                 const version = encodeURIComponent(data.updated || Date.now());
                 img.src = `${folder}/${photos[0]}?v=${version}`;
+
+                if (badge && videoCount > 0) {
+                    badge.hidden = false;
+                    badge.textContent = videoCount === 1 ? 'Includes 1 video' : `Includes ${videoCount} videos`;
+                }
             } catch (error) {
                 console.error(`Failed to load preview manifest for ${folder}:`, error);
             }
@@ -202,6 +237,7 @@
         setPreviewFromManifest('mop2025', 'preview-mop2025');
         setPreviewFromManifest('power-plant', 'preview-power-plant');
         setPreviewFromManifest('drama-play', 'preview-drama-play');
+        setPreviewFromManifest('waterpolo', 'preview-waterpolo', 'badge-waterpolo');
     </script>
 </body>
 

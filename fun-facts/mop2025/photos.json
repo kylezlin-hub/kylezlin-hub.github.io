@@ -1,5 +1,5 @@
 ﻿{
-    "count":  8,
+    "photoCount":  8,
     "photos":  [
                    "mmexport1750452668201.jpg",
                    "mmexport1750494757198.jpg",
@@ -10,5 +10,10 @@
                    "mmexport1751390769982.jpg",
                    "telent_show.PNG"
                ],
-    "updated":  "2026-06-24T19:40:33Z"
+    "videos":  {
+
+               },
+    "videoCount":  0,
+    "updated":  "2026-06-26T18:35:16Z",
+    "count":  8
 }

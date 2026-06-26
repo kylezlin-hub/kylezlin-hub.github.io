@@ -1,5 +1,5 @@
 ﻿{
-    "count":  6,
+    "photoCount":  6,
     "photos":  [
                    "drama1.PNG",
                    "drama2.PNG",
@@ -8,5 +8,10 @@
                    "PXL_20230505_003001892.jpg",
                    "PXL_20230505_003009527.MP.jpg"
                ],
-    "updated":  "2026-06-24T19:40:33Z"
+    "videos":  {
+
+               },
+    "videoCount":  0,
+    "updated":  "2026-06-26T18:35:16Z",
+    "count":  6
 }
