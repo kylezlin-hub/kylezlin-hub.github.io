@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Power Grid Quiz Blitz with renewable energy and electricity questions." />
+  <title>Power Grid Quiz Blitz | Kyle Lin</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=IBM+Plex+Serif:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --ink: #112233;
+      --muted: #4f5d6b;
+      --line: #cad8e2;
+      --panel: rgba(255, 255, 255, 0.84);
+      --blue: #1f4b88;
+      --teal: #0f8a77;
+      --orange: #d67122;
+      --good: #0f7a5e;
+      --bad: #b64141;
+      --radius: 18px;
+      --shadow: 0 16px 34px rgba(17, 34, 51, 0.15);
+      --max: 980px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      min-height: 100vh;
+      font-family: "Space Grotesk", "Segoe UI", sans-serif;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 10% 12%, rgba(15, 138, 119, 0.2), transparent 34%),
+        radial-gradient(circle at 86% 12%, rgba(214, 113, 34, 0.2), transparent 34%),
+        linear-gradient(130deg, #fcfbf8 0%, #edf3f8 48%, #ecf5f2 100%);
+      padding: 1rem;
+      line-height: 1.45;
+    }
+
+    main {
+      width: min(var(--max), 100%);
+      margin: 0 auto;
+      display: grid;
+      gap: 0.9rem;
+    }
+
+    .back {
+      justify-self: start;
+      text-decoration: none;
+      color: var(--blue);
+      border: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.78);
+      padding: 0.44rem 0.78rem;
+      border-radius: 999px;
+      font-size: 0.9rem;
+    }
+
+    .hero,
+    .quiz-shell,
+    .result {
+      border: 1px solid var(--line);
+      border-radius: calc(var(--radius) + 4px);
+      background: var(--panel);
+      box-shadow: var(--shadow);
+    }
+
+    .hero {
+      padding: clamp(1.1rem, 3vw, 1.8rem);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      width: 200px;
+      height: 200px;
+      border-radius: 999px;
+      right: -65px;
+      top: -90px;
+      background: rgba(31, 75, 136, 0.15);
+      pointer-events: none;
+    }
+
+    h1 {
+      font-size: clamp(1.75rem, 4.3vw, 2.8rem);
+      margin-bottom: 0.3rem;
+      letter-spacing: -0.02em;
+      position: relative;
+      z-index: 1;
+    }
+
+    .subtitle {
+      font-family: "IBM Plex Serif", Georgia, serif;
+      color: #243341;
+      max-width: 62ch;
+      position: relative;
+      z-index: 1;
+    }
+
+    .stats {
+      margin-top: 0.85rem;
+      display: grid;
+      gap: 0.55rem;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+
+    .mode-row {
+      margin-top: 0.7rem;
+      display: flex;
+      gap: 0.45rem;
+      flex-wrap: wrap;
+    }
+
+    .mode-btn {
+      border: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.88);
+      color: var(--blue);
+      border-radius: 999px;
+      padding: 0.38rem 0.7rem;
+      font-size: 0.8rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform 0.16s ease, border-color 0.16s ease, background-color 0.16s ease;
+    }
+
+    .mode-btn:hover {
+      transform: translateY(-1px);
+      border-color: var(--blue);
+    }
+
+    .mode-btn.active {
+      background: var(--blue);
+      color: #fff;
+      border-color: var(--blue);
+    }
+
+    .mode-btn.muted {
+      background: #fff;
+      color: #6c7883;
+      border-style: dashed;
+    }
+
+    .stat {
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.86);
+      padding: 0.55rem 0.68rem;
+    }
+
+    .label {
+      display: block;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      font-size: 0.72rem;
+      color: var(--muted);
+    }
+
+    .value {
+      font-size: 1.06rem;
+      font-weight: 700;
+      color: var(--blue);
+    }
+
+    .quiz-shell {
+      padding: clamp(0.9rem, 3vw, 1.2rem);
+      display: grid;
+      gap: 0.8rem;
+    }
+
+    .question-meta {
+      font-size: 0.86rem;
+      color: var(--muted);
+    }
+
+    .question {
+      font-size: clamp(1.08rem, 2.8vw, 1.34rem);
+      color: #1d2c3b;
+    }
+
+    .question.swap {
+      animation: rise 260ms ease both;
+    }
+
+    .choices {
+      display: grid;
+      gap: 0.55rem;
+    }
+
+    .choice {
+      width: 100%;
+      text-align: left;
+      border: 1px solid var(--line);
+      background: #fff;
+      border-radius: 12px;
+      padding: 0.64rem 0.72rem;
+      color: #1f2d3b;
+      cursor: pointer;
+      transition: transform 0.18s ease, border-color 0.18s ease, background-color 0.18s ease;
+      font-size: 0.95rem;
+    }
+
+    .choice.enter {
+      animation: rise 260ms ease both;
+    }
+
+    .choice:hover {
+      transform: translateY(-1px);
+      border-color: var(--blue);
+    }
+
+    .choice:disabled {
+      cursor: default;
+      opacity: 0.88;
+      transform: none;
+    }
+
+    .choice.correct {
+      border-color: var(--good);
+      background: rgba(15, 122, 94, 0.12);
+    }
+
+    .choice.wrong {
+      border-color: var(--bad);
+      background: rgba(182, 65, 65, 0.12);
+    }
+
+    .feedback {
+      min-height: 1.3rem;
+      font-weight: 700;
+    }
+
+    .feedback.good {
+      color: var(--good);
+    }
+
+    .feedback.bad {
+      color: var(--bad);
+    }
+
+    .controls {
+      display: flex;
+      justify-content: space-between;
+      gap: 0.55rem;
+      flex-wrap: wrap;
+    }
+
+    .button {
+      border: none;
+      border-radius: 999px;
+      padding: 0.52rem 0.84rem;
+      font-size: 0.88rem;
+      font-weight: 700;
+      cursor: pointer;
+      color: #fff;
+      background: var(--blue);
+      transition: transform 0.2s ease, filter 0.2s ease;
+    }
+
+    .button.secondary {
+      background: var(--teal);
+    }
+
+    .button:hover {
+      transform: translateY(-1px);
+      filter: brightness(1.05);
+    }
+
+    .button:disabled {
+      opacity: 0.5;
+      cursor: default;
+      transform: none;
+      filter: none;
+    }
+
+    .result {
+      display: none;
+      padding: 1rem;
+      gap: 0.7rem;
+    }
+
+    .result.show {
+      display: grid;
+      animation: rise 420ms ease both;
+    }
+
+    .result h2 {
+      color: var(--blue);
+      font-size: 1.28rem;
+    }
+
+    .result p {
+      color: #243341;
+    }
+
+    @keyframes rise {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @media (max-width: 760px) {
+      .stats {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <main>
+    <a class="back" href="../index.html">Back to games</a>
+
+    <section class="hero">
+      <h1>Power Grid Quiz Blitz</h1>
+      <p class="subtitle">A rapid quiz on renewable energy, electricity, and power-system fundamentals. Each run selects 12 random questions.</p>
+      <div class="mode-row" role="group" aria-label="Difficulty modes">
+        <button class="mode-btn active" type="button" data-mode="easy">Easy</button>
+        <button class="mode-btn" type="button" data-mode="medium">Medium</button>
+        <button class="mode-btn" type="button" data-mode="hard">Hard</button>
+        <button class="mode-btn" id="audio-toggle" type="button" aria-pressed="true">Sound: On</button>
+      </div>
+      <div class="stats" aria-live="polite">
+        <div class="stat"><span class="label">Score</span><span class="value" id="score">0</span></div>
+        <div class="stat"><span class="label">Question</span><span class="value" id="progress">1/12</span></div>
+        <div class="stat"><span class="label">Streak</span><span class="value" id="streak">0</span></div>
+        <div class="stat"><span class="label">Best</span><span class="value" id="best">0</span></div>
+      </div>
+    </section>
+
+    <section class="quiz-shell" id="quiz-shell">
+      <p class="question-meta" id="category"></p>
+      <h2 class="question" id="question"></h2>
+      <div class="choices" id="choices"></div>
+      <p class="feedback" id="feedback"></p>
+      <div class="controls">
+        <button class="button secondary" id="restart" type="button">New random set</button>
+        <button class="button" id="next" type="button" disabled>Next question</button>
+      </div>
+    </section>
+
+    <section class="result" id="result">
+      <h2>Round complete</h2>
+      <p id="summary"></p>
+      <button class="button" id="play-again" type="button">Play again</button>
+    </section>
+  </main>
+
+  <script>
+    const BEST_KEY_PREFIX = "energyQuizBestV1";
+    const AUDIO_KEY = "energyQuizAudioEnabledV1";
+
+    const QUESTION_BANK = [
+      { category: "Renewables", question: "Which energy source is renewable?", options: ["Coal", "Wind", "Diesel", "Natural gas"], answer: "Wind" },
+      { category: "Electricity Basics", question: "Electric power is measured in which unit?", options: ["Volt", "Watt", "Tesla", "Joule per meter"], answer: "Watt" },
+      { category: "Solar", question: "Photovoltaic panels convert sunlight directly into:", options: ["Mechanical motion", "AC power only", "DC electricity", "Thermal coal"], answer: "DC electricity" },
+      { category: "Grid", question: "The electric grid must keep generation and demand in:", options: ["Conflict", "Storage", "Balance", "Reverse"], answer: "Balance" },
+      { category: "Units", question: "kWh is a unit of:", options: ["Power", "Energy", "Voltage", "Frequency"], answer: "Energy" },
+      { category: "Wind", question: "Wind turbines primarily capture energy from moving:", options: ["Water", "Air", "Soil", "Sunlight photons only"], answer: "Air" },
+      { category: "Efficiency", question: "Which action usually lowers household electricity use most?", options: ["Switch to LED bulbs", "Use older bulbs", "Raise fridge temperature too high", "Run AC with windows open"], answer: "Switch to LED bulbs" },
+      { category: "Transmission", question: "High-voltage transmission helps reduce:", options: ["Current for same power", "Renewable supply", "Substations", "Circuit protection"], answer: "Current for same power" },
+      { category: "Physics", question: "If resistance stays constant, increasing voltage causes current to:", options: ["Decrease", "Stay zero", "Increase", "Reverse instantly"], answer: "Increase" },
+      { category: "Frequency", question: "Grid frequency in most of Europe is near:", options: ["25 Hz", "50 Hz", "75 Hz", "120 Hz"], answer: "50 Hz" },
+      { category: "Frequency", question: "Grid frequency in most of the United States is near:", options: ["30 Hz", "50 Hz", "60 Hz", "90 Hz"], answer: "60 Hz" },
+      { category: "Storage", question: "Battery storage is most useful for:", options: ["Adding carbon emissions", "Shifting energy over time", "Replacing wires", "Blocking solar"], answer: "Shifting energy over time" },
+      { category: "Hydro", question: "Pumped hydro stores energy by moving water:", options: ["Into clouds", "To a higher reservoir", "Into pipelines only", "Into turbines permanently"], answer: "To a higher reservoir" },
+      { category: "Solar", question: "Solar output generally peaks during:", options: ["Midday with strong sun", "Midnight", "Heavy storms", "Sunrise only"], answer: "Midday with strong sun" },
+      { category: "Wind", question: "A common challenge with wind generation is:", options: ["No moving parts", "Fuel transport", "Variable output", "No grid connection possible"], answer: "Variable output" },
+      { category: "Carbon", question: "Which source typically has low direct operational CO2 emissions?", options: ["Coal", "Natural gas", "Wind", "Diesel"], answer: "Wind" },
+      { category: "Power Systems", question: "A peaker plant is typically used when demand is:", options: ["Low", "Flat", "Very high", "Negative"], answer: "Very high" },
+      { category: "Electrical Safety", question: "A circuit breaker mainly protects against:", options: ["Cloud cover", "Overcurrent", "Internet outages", "Low battery phone"], answer: "Overcurrent" },
+      { category: "Solar", question: "Inverters in solar systems convert:", options: ["AC to DC", "DC to AC", "Heat to coal", "Wind to voltage"], answer: "DC to AC" },
+      { category: "Demand", question: "Demand response programs encourage users to:", options: ["Use more power at peak", "Shift use away from peak", "Ignore price signals", "Disconnect permanently"], answer: "Shift use away from peak" },
+      { category: "Power Factor", question: "Power factor is the ratio of real power to:", options: ["Reactive current", "Apparent power", "Voltage angle", "Battery capacity"], answer: "Apparent power" },
+      { category: "Microgrids", question: "A microgrid can often operate:", options: ["Only underwater", "Only with diesel", "Connected or islanded", "Without control systems"], answer: "Connected or islanded" },
+      { category: "Generation", question: "Which is dispatchable on demand in many grids?", options: ["Solar PV", "Wind", "Hydro with reservoir", "Rooftop shade"], answer: "Hydro with reservoir" },
+      { category: "Transmission", question: "Substations are used to:", options: ["Store fuel", "Change voltage levels", "Measure wind speed only", "Build solar panels"], answer: "Change voltage levels" },
+      { category: "Losses", question: "Line losses in wires are often proportional to:", options: ["Current squared", "Voltage squared only", "Frequency cubed", "Ambient pressure"], answer: "Current squared" },
+      { category: "Policy", question: "Net metering is associated most with:", options: ["Home solar export credits", "Coal shipping", "Transmission tower painting", "Nuclear fuel enrichment"], answer: "Home solar export credits" },
+      { category: "EVs", question: "An electric vehicle has zero tailpipe emissions because:", options: ["It burns no fuel onboard", "It has no battery", "It uses only AC motors", "It has no wheels"], answer: "It burns no fuel onboard" },
+      { category: "Thermodynamics", question: "Combined-cycle plants improve efficiency by:", options: ["Using one turbine twice", "Using gas and steam cycles", "Eliminating heat", "Removing generators"], answer: "Using gas and steam cycles" },
+      { category: "Climate", question: "Decarbonization of power systems means:", options: ["Higher soot output", "Lower carbon intensity", "No electricity demand", "Lower voltage limits"], answer: "Lower carbon intensity" },
+      { category: "Reliability", question: "Grid reliability often uses the concept of reserve:", options: ["Margin", "Altitude", "Humidity", "Inertia color"], answer: "Margin" }
+    ];
+
+    const scoreEl = document.getElementById("score");
+    const progressEl = document.getElementById("progress");
+    const streakEl = document.getElementById("streak");
+    const bestEl = document.getElementById("best");
+    const categoryEl = document.getElementById("category");
+    const questionEl = document.getElementById("question");
+    const choicesEl = document.getElementById("choices");
+    const feedbackEl = document.getElementById("feedback");
+    const nextBtn = document.getElementById("next");
+    const restartBtn = document.getElementById("restart");
+    const playAgainBtn = document.getElementById("play-again");
+    const modeButtons = Array.from(document.querySelectorAll(".mode-btn"));
+    const audioToggleBtn = document.getElementById("audio-toggle");
+    const resultEl = document.getElementById("result");
+    const summaryEl = document.getElementById("summary");
+    const quizShellEl = document.getElementById("quiz-shell");
+
+    const MODE_CONFIG = {
+      easy: { total: 8, label: "Easy" },
+      medium: { total: 12, label: "Medium" },
+      hard: { total: 15, label: "Hard" }
+    };
+
+    let audioCtx = null;
+    let set = [];
+    let index = 0;
+    let score = 0;
+    let streak = 0;
+    let bestStreak = 0;
+    let answered = false;
+    let currentMode = "easy";
+    let totalQuestions = MODE_CONFIG.easy.total;
+    let audioEnabled = localStorage.getItem(AUDIO_KEY) !== "off";
+
+    function shuffle(arr) {
+      for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+      }
+      return arr;
+    }
+
+    function bestKeyForMode(mode) {
+      return `${BEST_KEY_PREFIX}_${mode}`;
+    }
+
+    function loadBest() {
+      const raw = localStorage.getItem(bestKeyForMode(currentMode));
+      if (!raw) return 0;
+      const parsed = Number(raw);
+      return Number.isFinite(parsed) ? parsed : 0;
+    }
+
+    function updateBest(scoreValue) {
+      const currentBest = loadBest();
+      if (scoreValue > currentBest) {
+        localStorage.setItem(bestKeyForMode(currentMode), String(scoreValue));
+      }
+      bestEl.textContent = String(loadBest());
+    }
+
+    function getAudioContext() {
+      if (!audioCtx) {
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      }
+      return audioCtx;
+    }
+
+    function playTone(freq, duration, type, volume, delay = 0) {
+      if (!audioEnabled) return;
+      try {
+        const ctx = getAudioContext();
+        const now = ctx.currentTime + delay;
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.type = type;
+        osc.frequency.value = freq;
+        gain.gain.setValueAtTime(0.001, now);
+        gain.gain.exponentialRampToValueAtTime(volume, now + 0.01);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + duration);
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.start(now);
+        osc.stop(now + duration + 0.02);
+      } catch (error) {
+        // Silently ignore audio failures (autoplay restrictions, unsupported APIs).
+      }
+    }
+
+    function updateAudioToggleUi() {
+      audioToggleBtn.textContent = audioEnabled ? "Sound: On" : "Sound: Off";
+      audioToggleBtn.setAttribute("aria-pressed", audioEnabled ? "true" : "false");
+      audioToggleBtn.classList.toggle("muted", !audioEnabled);
+    }
+
+    function playCorrectSound() {
+      playTone(520, 0.1, "triangle", 0.03);
+      playTone(660, 0.12, "triangle", 0.03, 0.08);
+    }
+
+    function playWrongSound() {
+      playTone(230, 0.16, "sawtooth", 0.022);
+    }
+
+    function playAdvanceSound() {
+      playTone(390, 0.07, "square", 0.02);
+    }
+
+    function playFinishSound() {
+      playTone(523, 0.1, "triangle", 0.03);
+      playTone(659, 0.12, "triangle", 0.03, 0.08);
+      playTone(784, 0.14, "triangle", 0.03, 0.16);
+    }
+
+    function updateStats() {
+      scoreEl.textContent = String(score);
+      progressEl.textContent = `${Math.min(index + 1, totalQuestions)}/${totalQuestions}`;
+      streakEl.textContent = String(streak);
+    }
+
+    function disableChoices() {
+      choicesEl.querySelectorAll("button").forEach((btn) => {
+        btn.disabled = true;
+      });
+    }
+
+    function renderQuestion() {
+      const current = set[index];
+      feedbackEl.textContent = "";
+      feedbackEl.className = "feedback";
+      nextBtn.disabled = true;
+      answered = false;
+
+      categoryEl.textContent = currentMode === "hard" ? "Category hidden in hard mode" : `Category: ${current.category}`;
+      questionEl.textContent = current.question;
+      questionEl.classList.remove("swap");
+      void questionEl.offsetWidth;
+      questionEl.classList.add("swap");
+      choicesEl.innerHTML = "";
+
+      const options = currentMode === "hard" ? shuffle([...current.options]) : [...current.options];
+      options.forEach((option, idx) => {
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "choice enter";
+        btn.textContent = option;
+        btn.style.animationDelay = `${idx * 35}ms`;
+        btn.addEventListener("click", () => answer(option, btn));
+        choicesEl.appendChild(btn);
+      });
+
+      updateStats();
+    }
+
+    function answer(option, clickedBtn) {
+      if (answered) return;
+      answered = true;
+
+      const current = set[index];
+      const correct = option === current.answer;
+
+      choicesEl.querySelectorAll("button").forEach((btn) => {
+        if (btn.textContent === current.answer) {
+          btn.classList.add("correct");
+        }
+        if (btn === clickedBtn && !correct) {
+          btn.classList.add("wrong");
+        }
+      });
+
+      if (correct) {
+        score += 1;
+        streak += 1;
+        if (streak > bestStreak) {
+          bestStreak = streak;
+        }
+        feedbackEl.textContent = "Correct.";
+        feedbackEl.className = "feedback good";
+        playCorrectSound();
+      } else {
+        streak = 0;
+        feedbackEl.textContent = `Not quite. Correct answer: ${current.answer}`;
+        feedbackEl.className = "feedback bad";
+        playWrongSound();
+      }
+
+      disableChoices();
+      nextBtn.disabled = false;
+      updateStats();
+    }
+
+    function endRound() {
+      quizShellEl.style.display = "none";
+      resultEl.classList.add("show");
+      updateBest(score);
+      playFinishSound();
+
+      const highTier = Math.ceil(totalQuestions * 0.84);
+      const midTier = Math.ceil(totalQuestions * 0.58);
+      const rating = score >= highTier ? "Grid Strategist" : score >= midTier ? "Grid Analyst" : "Grid Explorer";
+      summaryEl.textContent = `${MODE_CONFIG[currentMode].label} mode: ${score}/${totalQuestions}, best streak ${bestStreak}, title ${rating}.`;
+    }
+
+    function nextQuestion() {
+      if (index >= totalQuestions - 1) {
+        endRound();
+        return;
+      }
+      playAdvanceSound();
+      index += 1;
+      renderQuestion();
+    }
+
+    function startNewSet() {
+      totalQuestions = MODE_CONFIG[currentMode].total;
+      set = shuffle([...QUESTION_BANK]).slice(0, totalQuestions);
+      index = 0;
+      score = 0;
+      streak = 0;
+      bestStreak = 0;
+      answered = false;
+      quizShellEl.style.display = "grid";
+      resultEl.classList.remove("show");
+      bestEl.textContent = String(loadBest());
+      renderQuestion();
+    }
+
+    function setMode(mode) {
+      if (!MODE_CONFIG[mode]) return;
+      currentMode = mode;
+      modeButtons.forEach((btn) => {
+        btn.classList.toggle("active", btn.dataset.mode === mode);
+      });
+      startNewSet();
+    }
+
+    modeButtons.forEach((btn) => {
+      btn.addEventListener("click", () => setMode(btn.dataset.mode));
+    });
+
+    audioToggleBtn.addEventListener("click", () => {
+      audioEnabled = !audioEnabled;
+      localStorage.setItem(AUDIO_KEY, audioEnabled ? "on" : "off");
+      updateAudioToggleUi();
+    });
+
+    nextBtn.addEventListener("click", nextQuestion);
+    restartBtn.addEventListener("click", startNewSet);
+    playAgainBtn.addEventListener("click", startNewSet);
+
+    updateAudioToggleUi();
+    bestEl.textContent = String(loadBest());
+    startNewSet();
+  </script>
+</body>
+
+</html>

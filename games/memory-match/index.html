@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Energy Memory Match game by Kyle Lin." />
+  <title>Energy Memory Match | Kyle Lin</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=IBM+Plex+Serif:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #f2f7f8;
+      --ink: #122537;
+      --muted: #566272;
+      --line: #cbd7de;
+      --panel: rgba(255, 255, 255, 0.84);
+      --accent: #0f8a77;
+      --accent-2: #de7727;
+      --accent-3: #1f4b88;
+      --radius: 18px;
+      --shadow: 0 16px 34px rgba(18, 37, 55, 0.15);
+      --max: 980px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      min-height: 100vh;
+      color: var(--ink);
+      font-family: "Space Grotesk", "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at 12% 12%, rgba(15, 138, 119, 0.2), transparent 34%),
+        radial-gradient(circle at 86% 20%, rgba(222, 119, 39, 0.2), transparent 34%),
+        linear-gradient(130deg, #fdfbf7 0%, #eef3f8 48%, #eaf5f1 100%);
+      padding: 1rem;
+    }
+
+    main {
+      width: min(var(--max), 100%);
+      margin: 0 auto;
+      display: grid;
+      gap: 0.9rem;
+    }
+
+    .back {
+      justify-self: start;
+      text-decoration: none;
+      color: var(--accent-3);
+      border: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.78);
+      padding: 0.44rem 0.78rem;
+      border-radius: 999px;
+      font-size: 0.9rem;
+    }
+
+    .hero,
+    .board-shell {
+      border: 1px solid var(--line);
+      border-radius: calc(var(--radius) + 4px);
+      background: var(--panel);
+      box-shadow: var(--shadow);
+    }
+
+    .hero {
+      padding: clamp(1.1rem, 3vw, 1.8rem);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      width: 220px;
+      height: 220px;
+      border-radius: 999px;
+      right: -70px;
+      top: -90px;
+      background: rgba(31, 75, 136, 0.14);
+      pointer-events: none;
+    }
+
+    h1 {
+      font-size: clamp(1.7rem, 4.3vw, 2.7rem);
+      letter-spacing: -0.02em;
+      margin-bottom: 0.4rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .subtitle {
+      font-family: "IBM Plex Serif", Georgia, serif;
+      color: #273645;
+      max-width: 58ch;
+      position: relative;
+      z-index: 1;
+    }
+
+    .stats {
+      margin-top: 0.9rem;
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 0.6rem;
+    }
+
+    .stat {
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.85);
+      padding: 0.58rem 0.68rem;
+    }
+
+    .label {
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--muted);
+      display: block;
+    }
+
+    .value {
+      font-size: 1.05rem;
+      color: var(--accent-3);
+      font-weight: 700;
+    }
+
+    .board-shell {
+      padding: clamp(0.8rem, 2.7vw, 1.2rem);
+      display: grid;
+      gap: 0.9rem;
+    }
+
+    .toolbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.6rem;
+      flex-wrap: wrap;
+    }
+
+    .hint {
+      font-size: 0.88rem;
+      color: var(--muted);
+    }
+
+    .button {
+      border: none;
+      background: var(--accent-3);
+      color: #fff;
+      border-radius: 999px;
+      padding: 0.52rem 0.82rem;
+      font-size: 0.86rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform 0.2s ease, filter 0.2s ease;
+    }
+
+    .button:hover {
+      transform: translateY(-1px);
+      filter: brightness(1.05);
+    }
+
+    .button.muted {
+      background: #6a7480;
+    }
+
+    .board {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 0.58rem;
+      perspective: 1000px;
+    }
+
+    .card {
+      position: relative;
+      border: none;
+      cursor: pointer;
+      background: transparent;
+      aspect-ratio: 1 / 1;
+      transition: transform 0.45s ease;
+      border-radius: 14px;
+      outline-offset: 3px;
+      padding: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .card-flipper {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transform-style: preserve-3d;
+      -webkit-transform-style: preserve-3d;
+      transition: transform 0.45s ease;
+      transform-origin: center center;
+      -webkit-transform-origin: center center;
+      border-radius: 14px;
+    }
+
+    .card.spawn {
+      animation: rise 320ms ease both;
+    }
+
+    .card.flipped .card-flipper,
+    .card.matched .card-flipper {
+      transform: rotateY(180deg);
+      -webkit-transform: rotateY(180deg);
+      -moz-transform: rotateY(180deg);
+    }
+
+    .card.matched .front {
+      animation: glow 380ms ease both;
+    }
+
+    .face {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 14px;
+      border: 1px solid var(--line);
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+      box-shadow: 0 8px 16px rgba(18, 37, 55, 0.12);
+    }
+
+    .front {
+      background: linear-gradient(140deg, #ffffff, #f0f8ff);
+      font-size: clamp(1.25rem, 4vw, 2rem);
+      color: var(--ink);
+      transform: rotateY(180deg);
+      -webkit-transform: rotateY(180deg);
+    }
+
+    .back-face {
+      background: linear-gradient(140deg, rgba(31, 75, 136, 0.9), rgba(15, 138, 119, 0.9));
+      color: #fff;
+      font-size: 1.35rem;
+      letter-spacing: 0.04em;
+      font-weight: 700;
+    }
+
+    .message {
+      min-height: 1.3rem;
+      color: var(--accent);
+      font-weight: 700;
+    }
+
+    .message.pop {
+      animation: pulse 300ms ease both;
+    }
+
+    @keyframes rise {
+      from {
+        opacity: 0;
+        transform: translateY(8px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes glow {
+      from {
+        box-shadow: 0 0 0 rgba(15, 138, 119, 0.0);
+      }
+
+      to {
+        box-shadow: 0 0 0.8rem rgba(15, 138, 119, 0.26);
+      }
+    }
+
+    @keyframes pulse {
+      from {
+        transform: scale(1);
+      }
+
+      50% {
+        transform: scale(1.03);
+      }
+
+      to {
+        transform: scale(1);
+      }
+    }
+
+    @media (max-width: 760px) {
+      .stats {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 520px) {
+      .board {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <main>
+    <a class="back" href="../index.html">Back to games</a>
+
+    <section class="hero">
+      <h1>Energy Memory Match</h1>
+      <p class="subtitle">Match renewable-energy and electricity symbols as quickly as possible with minimal moves.</p>
+      <div class="stats" aria-live="polite">
+        <div class="stat"><span class="label">Moves</span><span class="value" id="moves">0</span></div>
+        <div class="stat"><span class="label">Matches</span><span class="value" id="matches">0/6</span></div>
+        <div class="stat"><span class="label">Time</span><span class="value" id="time">0s</span></div>
+        <div class="stat"><span class="label">Best</span><span class="value" id="best">--</span></div>
+      </div>
+    </section>
+
+    <section class="board-shell">
+      <div class="toolbar">
+        <p class="hint">Tap two cards at a time. Finish with fewer moves for a better score.</p>
+        <div style="display:flex; gap:0.45rem; flex-wrap:wrap;">
+          <button class="button" id="audio-toggle" type="button" aria-pressed="true">Sound: On</button>
+          <button class="button" id="restart" type="button">Shuffle and restart</button>
+        </div>
+      </div>
+      <div class="board" id="board"></div>
+      <p class="message" id="message"></p>
+    </section>
+  </main>
+
+  <script>
+    const ICONS = ["\u2600\ufe0f", "\ud83c\udf2c\ufe0f", "\u26a1", "\ud83d\udd0b", "\ud83d\udd0c", "\ud83c\udf0a"];
+    const BEST_KEY = "energyMemoryBestV1";
+    const AUDIO_KEY = "energyMemoryAudioEnabledV1";
+
+    const boardEl = document.getElementById("board");
+    const movesEl = document.getElementById("moves");
+    const matchesEl = document.getElementById("matches");
+    const timeEl = document.getElementById("time");
+    const bestEl = document.getElementById("best");
+    const messageEl = document.getElementById("message");
+    const audioToggleBtn = document.getElementById("audio-toggle");
+    const restartBtn = document.getElementById("restart");
+
+    let deck = [];
+    let firstCard = null;
+    let secondCard = null;
+    let lock = false;
+    let moves = 0;
+    let matches = 0;
+    let seconds = 0;
+    let timerId = null;
+    let audioCtx = null;
+    let audioEnabled = localStorage.getItem(AUDIO_KEY) !== "off";
+
+    function shuffle(arr) {
+      for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+      }
+      return arr;
+    }
+
+    function formatBest(best) {
+      if (!best) return "--";
+      return `${best.moves}m ${best.time}s`;
+    }
+
+    function updateBestDisplay() {
+      const raw = localStorage.getItem(BEST_KEY);
+      if (!raw) {
+        bestEl.textContent = "--";
+        return;
+      }
+      try {
+        const parsed = JSON.parse(raw);
+        bestEl.textContent = formatBest(parsed);
+      } catch (error) {
+        bestEl.textContent = "--";
+      }
+    }
+
+    function getAudioContext() {
+      if (!audioCtx) {
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      }
+      return audioCtx;
+    }
+
+    function playTone(freq, duration, type, volume, delay = 0) {
+      if (!audioEnabled) return;
+      try {
+        const ctx = getAudioContext();
+        const now = ctx.currentTime + delay;
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.type = type;
+        osc.frequency.value = freq;
+        gain.gain.setValueAtTime(0.001, now);
+        gain.gain.exponentialRampToValueAtTime(volume, now + 0.01);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + duration);
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.start(now);
+        osc.stop(now + duration + 0.02);
+      } catch (error) {
+        // Ignore audio errors from autoplay restrictions or unsupported APIs.
+      }
+    }
+
+    function updateAudioToggleUi() {
+      audioToggleBtn.textContent = audioEnabled ? "Sound: On" : "Sound: Off";
+      audioToggleBtn.setAttribute("aria-pressed", audioEnabled ? "true" : "false");
+      audioToggleBtn.classList.toggle("muted", !audioEnabled);
+    }
+
+    function playFlipSound() {
+      playTone(460, 0.06, "square", 0.016);
+    }
+
+    function playMatchSound() {
+      playTone(530, 0.08, "triangle", 0.028);
+      playTone(700, 0.1, "triangle", 0.028, 0.07);
+    }
+
+    function playMismatchSound() {
+      playTone(250, 0.12, "sawtooth", 0.018);
+    }
+
+    function playWinSound() {
+      playTone(523, 0.1, "triangle", 0.03);
+      playTone(659, 0.12, "triangle", 0.03, 0.08);
+      playTone(784, 0.14, "triangle", 0.03, 0.16);
+    }
+
+    function tickTimer() {
+      seconds += 1;
+      timeEl.textContent = `${seconds}s`;
+    }
+
+    function beginTimer() {
+      if (timerId) return;
+      timerId = window.setInterval(tickTimer, 1000);
+    }
+
+    function stopTimer() {
+      if (!timerId) return;
+      window.clearInterval(timerId);
+      timerId = null;
+    }
+
+    function renderDeck() {
+      boardEl.innerHTML = "";
+      for (const [index, card] of deck.entries()) {
+        const button = document.createElement("button");
+        button.className = "card spawn";
+        button.type = "button";
+        button.dataset.id = String(card.id);
+        button.dataset.icon = card.icon;
+        button.style.animationDelay = `${index * 24}ms`;
+
+        const flipper = document.createElement("div");
+        flipper.className = "card-flipper";
+        
+        const backFace = document.createElement("span");
+        backFace.className = "face back-face";
+        backFace.setAttribute("aria-hidden", "true");
+        backFace.textContent = "E";
+        
+        const frontFace = document.createElement("span");
+        frontFace.className = "face front";
+        frontFace.setAttribute("aria-hidden", "true");
+        frontFace.textContent = card.icon;
+        
+        flipper.appendChild(backFace);
+        flipper.appendChild(frontFace);
+        button.appendChild(flipper);
+
+        button.addEventListener("click", () => onCardClick(button));
+        boardEl.appendChild(button);
+      }
+    }
+
+    function resetState() {
+      firstCard = null;
+      secondCard = null;
+      lock = false;
+      moves = 0;
+      matches = 0;
+      seconds = 0;
+      movesEl.textContent = "0";
+      matchesEl.textContent = "0/6";
+      timeEl.textContent = "0s";
+      messageEl.textContent = "";
+      stopTimer();
+    }
+
+    function buildGame() {
+      resetState();
+      const pairCards = ICONS.flatMap((icon) => [icon, icon]);
+      deck = shuffle(pairCards.map((icon, index) => ({ id: index + 1, icon })));
+      renderDeck();
+    }
+
+    function markMatched(cardA, cardB) {
+      cardA.classList.add("matched");
+      cardB.classList.add("matched");
+      playMatchSound();
+      matches += 1;
+      matchesEl.textContent = `${matches}/6`;
+
+      if (matches === ICONS.length) {
+        stopTimer();
+        messageEl.textContent = "Great run. Grid stabilized.";
+        messageEl.classList.remove("pop");
+        void messageEl.offsetWidth;
+        messageEl.classList.add("pop");
+        playWinSound();
+
+        const newRecord = { moves, time: seconds };
+        const raw = localStorage.getItem(BEST_KEY);
+        let shouldSave = true;
+
+        if (raw) {
+          try {
+            const best = JSON.parse(raw);
+            shouldSave = moves < best.moves || (moves === best.moves && seconds < best.time);
+          } catch (error) {
+            shouldSave = true;
+          }
+        }
+
+        if (shouldSave) {
+          localStorage.setItem(BEST_KEY, JSON.stringify(newRecord));
+          messageEl.textContent = "New best score recorded.";
+          messageEl.classList.remove("pop");
+          void messageEl.offsetWidth;
+          messageEl.classList.add("pop");
+        }
+
+        updateBestDisplay();
+      }
+    }
+
+    function hideCards(cardA, cardB) {
+      window.setTimeout(() => {
+        cardA.classList.remove("flipped");
+        cardB.classList.remove("flipped");
+        playMismatchSound();
+        lock = false;
+      }, 580);
+    }
+
+    function onCardClick(button) {
+      if (lock || button.classList.contains("matched") || button === firstCard) return;
+
+      beginTimer();
+      button.classList.add("flipped");
+      playFlipSound();
+
+      if (!firstCard) {
+        firstCard = button;
+        return;
+      }
+
+      secondCard = button;
+      lock = true;
+      moves += 1;
+      movesEl.textContent = String(moves);
+
+      const firstIcon = firstCard.dataset.icon;
+      const secondIcon = secondCard.dataset.icon;
+
+      if (firstIcon === secondIcon) {
+        markMatched(firstCard, secondCard);
+        firstCard = null;
+        secondCard = null;
+        lock = false;
+      } else {
+        hideCards(firstCard, secondCard);
+        firstCard = null;
+        secondCard = null;
+      }
+    }
+
+    restartBtn.addEventListener("click", buildGame);
+    audioToggleBtn.addEventListener("click", () => {
+      audioEnabled = !audioEnabled;
+      localStorage.setItem(AUDIO_KEY, audioEnabled ? "on" : "off");
+      updateAudioToggleUi();
+    });
+
+    updateAudioToggleUi();
+    updateBestDisplay();
+    buildGame();
+  </script>
+</body>
+
+</html>
