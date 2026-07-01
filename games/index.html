@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Play mini games by Kyle Lin: Energy Memory Match, Power Grid Quiz Blitz, Endless Dodger, and Market Replay Trader." />
+  <meta name="description" content="Play mini games by Kyle Lin: Energy Memory Match, Power Grid Quiz Blitz, Endless Dodger, Market Replay Trader, and Hydro Dam Manager." />
   <title>Games | Kyle Lin</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -173,6 +173,10 @@
       animation-delay: 300ms;
     }
 
+    .game-card:nth-child(5) {
+      animation-delay: 380ms;
+    }
+
     .tag {
       font-size: 0.72rem;
       letter-spacing: 0.08em;
@@ -292,6 +296,16 @@
           <a class="button primary" href="stock-trader/index.html">Start trading</a>
         </div>
       </article>
+
+      <article class="game-card">
+        <span class="tag">Flow Control</span>
+        <h2>Hydro Dam Manager</h2>
+        <p>Control dam release to satisfy power demand while preventing drought and overflow. Survive unpredictable weather and keep the grid stable.</p>
+        <div class="actions">
+          <a class="button primary" href="hydro-dam/index.html">Manage dam</a>
+        </div>
+      </article>
+
     </section>
 
     <section class="leaderboard" aria-label="Shared leaderboard">
@@ -320,6 +334,10 @@
         <div class="score-item">
           <span class="k">Replay Trader Best</span>
           <span class="v" id="lb-trader">0</span>
+        </div>
+        <div class="score-item">
+          <span class="k">Hydro Dam Best</span>
+          <span class="v" id="lb-hydro">0</span>
         </div>
       </div>
       <div class="leaderboard-actions">
@@ -357,6 +375,7 @@
       document.getElementById("lb-quiz-hard").textContent = String(parseNumberScore("energyQuizBestV1_hard"));
       document.getElementById("lb-dodger").textContent = String(parseNumberScore("endlessDodgerBestV1"));
       document.getElementById("lb-trader").textContent = String(parseNumberScore("stockTraderBestV1"));
+      document.getElementById("lb-hydro").textContent = String(parseNumberScore("hydroDamBestV1"));
     }
 
     function resetScores() {
@@ -369,6 +388,7 @@
       localStorage.removeItem("energyQuizBestV1_hard");
       localStorage.removeItem("endlessDodgerBestV1");
       localStorage.removeItem("stockTraderBestV1");
+      localStorage.removeItem("hydroDamBestV1");
       renderLeaderboard();
     }
 
