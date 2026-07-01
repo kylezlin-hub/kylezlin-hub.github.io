@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Play mini games by Kyle Lin: Energy Memory Match and Power Grid Quiz Blitz." />
+  <meta name="description" content="Play mini games by Kyle Lin: Energy Memory Match, Power Grid Quiz Blitz, and Endless Dodger." />
   <title>Games | Kyle Lin</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -165,6 +165,10 @@
       animation-delay: 130ms;
     }
 
+    .game-card:nth-child(3) {
+      animation-delay: 220ms;
+    }
+
     .tag {
       font-size: 0.72rem;
       letter-spacing: 0.08em;
@@ -266,6 +270,15 @@
           <a class="button primary" href="energy-quiz/index.html">Start quiz</a>
         </div>
       </article>
+
+      <article class="game-card">
+        <span class="tag">Arcade Reflex</span>
+        <h2>Endless Dodger</h2>
+        <p>Slide left and right to dodge falling obstacles. Speed ramps up the longer you survive, and your best score is saved locally.</p>
+        <div class="actions">
+          <a class="button primary" href="endless-dodger/index.html">Play dodger</a>
+        </div>
+      </article>
     </section>
 
     <section class="leaderboard" aria-label="Shared leaderboard">
@@ -286,6 +299,10 @@
         <div class="score-item">
           <span class="k">Quiz Hard Best</span>
           <span class="v" id="lb-quiz-hard">0</span>
+        </div>
+        <div class="score-item">
+          <span class="k">Endless Dodger Best</span>
+          <span class="v" id="lb-dodger">0</span>
         </div>
       </div>
       <div class="leaderboard-actions">
@@ -321,6 +338,7 @@
       document.getElementById("lb-quiz-easy").textContent = String(parseNumberScore("energyQuizBestV1_easy"));
       document.getElementById("lb-quiz-medium").textContent = String(parseNumberScore("energyQuizBestV1_medium"));
       document.getElementById("lb-quiz-hard").textContent = String(parseNumberScore("energyQuizBestV1_hard"));
+      document.getElementById("lb-dodger").textContent = String(parseNumberScore("endlessDodgerBestV1"));
     }
 
     function resetScores() {
@@ -331,6 +349,7 @@
       localStorage.removeItem("energyQuizBestV1_easy");
       localStorage.removeItem("energyQuizBestV1_medium");
       localStorage.removeItem("energyQuizBestV1_hard");
+      localStorage.removeItem("endlessDodgerBestV1");
       renderLeaderboard();
     }
 
