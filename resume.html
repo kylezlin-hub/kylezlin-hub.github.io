@@ -132,7 +132,7 @@
             display: grid;
             grid-template-columns: 0.95fr 1.55fr;
             gap: 0.95rem;
-            align-items: start;
+              align-items: stretch;
         }
 
         .column .section:first-child {
@@ -140,11 +140,18 @@
         }
 
         .column.left {
-            background: #f5f6f7;
-            border: 1px solid #e3e6ea;
+                background: #e7ebef;
+                border: 1px solid #cfd7df;
             border-radius: 10px;
             padding: 0.6rem 0.65rem;
         }
+
+            .section.highlight {
+                background: #f7f1df;
+                border: 1px solid #e3d2a2;
+                border-radius: 10px;
+                padding: 0.55rem 0.65rem;
+            }
 
         .section h2 {
             font-size: 0.92rem;
@@ -341,7 +348,7 @@
             </div>
 
             <div class="column right">
-                <section class="section">
+                <section class="section highlight">
                     <h2>Honors & Awards</h2>
                     <ul>
                         <li>Mathematical Olympiad Program (MOP) Camper, 2025</li>
