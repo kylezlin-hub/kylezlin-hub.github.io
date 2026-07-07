@@ -192,6 +192,13 @@
             font-size: 0.83rem;
         }
 
+        ul ul {
+            margin-top: 0.12rem;
+            padding-left: 1rem;
+            gap: 0.06rem;
+            font-size: 0.81rem;
+        }
+
         .sub {
             font-size: 0.86rem;
             color: #2a2520;
@@ -203,6 +210,12 @@
             font-size: 0.82rem;
         }
 
+        .section-intro {
+            margin-top: 0.12rem;
+            color: var(--ink);
+            font-size: 0.83rem;
+        }
+
         .skills-line {
             font-size: 0.84rem;
             margin-top: 0.16rem;
@@ -212,19 +225,39 @@
             color: #2c2823;
         }
 
+        body.print-mode {
+            background: #fff;
+            padding: 0;
+        }
+
+        body.print-mode .toolbar {
+            display: none;
+        }
+
+        body.print-mode .resume {
+            border: none;
+            box-shadow: none;
+            max-width: none;
+            margin: 0;
+            padding: 0;
+        }
+
         @media print {
             @page {
                 size: letter;
-                margin: 0.4in;
+                margin: 0.3in 0.35in 0.3in 0.35in;
             }
 
             body {
                 background: #fff;
                 padding: 0;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+                color-adjust: exact;
             }
 
             .toolbar {
-                display: none;
+                display: none !important;
             }
 
             .resume {
@@ -233,40 +266,101 @@
                 max-width: none;
                 margin: 0;
                 padding: 0;
+                width: 100%;
+                box-sizing: border-box;
             }
 
             .resume-grid {
-                grid-template-columns: 0.95fr 1.55fr;
-                gap: 0.62rem;
+                gap: 0.7rem;
             }
 
             .header {
-                padding-bottom: 0.42rem;
-                margin-bottom: 0.52rem;
+                padding-bottom: 0.45rem;
+                margin-bottom: 0.6rem;
             }
 
             .name {
-                font-size: 1.46rem;
+                font-size: 1.4rem;
             }
 
             .meta {
-                font-size: 0.84rem;
-                margin-top: 0.12rem;
+                font-size: 0.82rem;
+                margin-top: 0.15rem;
+            }
+
+            .meta-link {
+                font-size: 0.8rem;
             }
 
             .section {
-                margin-top: 0.52rem;
+                margin-top: 0.5rem;
+            }
+
+            .section h2 {
+                font-size: 0.87rem;
+                margin-bottom: 0.22rem;
+                padding-bottom: 0.12rem;
             }
 
             ul {
-                font-size: 0.81rem;
-                gap: 0.08rem;
-                margin-top: 0.14rem;
+                font-size: 0.78rem;
+                gap: 0.06rem;
+                margin-top: 0.15rem;
+            }
+
+            ul ul {
+                margin-top: 0.08rem;
+                padding-left: 0.95rem;
+                gap: 0.04rem;
+                font-size: 0.76rem;
             }
 
             .skills-line {
-                font-size: 0.81rem;
+                font-size: 0.78rem;
                 margin-top: 0.12rem;
+            }
+
+            .section-intro {
+                font-size: 0.78rem;
+                margin-top: 0.1rem;
+            }
+
+            .compact {
+                font-size: 0.77rem;
+                margin-top: 0.08rem;
+            }
+
+            .date {
+                font-size: 0.78rem;
+            }
+
+            .row {
+                margin-bottom: 0.08rem;
+            }
+
+            .row strong {
+                font-size: 0.86rem;
+            }
+
+            .resume-headshot {
+                width: 56px;
+                height: 56px;
+            }
+
+            .sub {
+                font-size: 0.8rem;
+            }
+
+            .column.left {
+                background: #e7ebef;
+                border: 1px solid #cfd7df;
+                padding: 0.5rem 0.6rem;
+            }
+
+            .section.highlight {
+                background: #f7f1df;
+                border: 1px solid #e3d2a2;
+                padding: 0.45rem 0.6rem;
             }
         }
 
@@ -290,7 +384,8 @@
 <body>
     <div class="toolbar">
         <a href="index.html">Back to homepage</a>
-        <button id="downloadBtn" class="primary" type="button">Download as PDF</button>
+        <button id="downloadBtn" class="primary" type="button" onclick="window.print(); return false;">Download as
+            PDF</button>
     </div>
 
     <main class="resume" aria-label="Resume">
@@ -302,8 +397,7 @@
                     <div class="name">Kyle Lin</div>
                     <div class="meta">St. Mark's School of Texas, Class of 2028 | Dallas, Texas | kyle.z.lin@gmail.com |
                         <a href="https://github.com/kylezlin-hub" target="_blank"
-                            rel="noopener noreferrer">https://github.com/kylezlin-hub</a> | <strong>Unweighted GPA:
-                            4.0</strong>
+                            rel="noopener noreferrer">https://github.com/kylezlin-hub</a>
                     </div>
                 </div>
             </div>
@@ -311,6 +405,21 @@
 
         <div class="resume-grid">
             <div class="column left">
+                <section class="section">
+                    <h2>Education</h2>
+                    <div class="row">
+                        <strong>St. Mark's School of Texas</strong>
+                    </div>
+                    <div class="compact"><em>Expected Graduation: June 2028</em></div>
+                    <ul>
+                        <li><strong>GPA:</strong> 4.0 (Unweighted) / 4.? (Weighted)</li>
+                        <li><strong>Advanced Coursework:</strong> AP Calculus BC (10th), AP Physics C: Mechanics +
+                            Electricity and Magnetism (11th), Advanced Topics in Math: Linear Algebra (11th),
+                            Advanced Topics in Math: Multivariable Calculus (12th), Honors Chemistry, Honors Biology
+                        </li>
+                    </ul>
+                </section>
+
                 <section class="section">
                     <h2>Skills & Interests</h2>
                     <div class="skills-line"><strong>Skills:</strong> Python Programming, Statistical Models, ML and
@@ -320,8 +429,6 @@
                     </div>
                     <div class="skills-line"><strong>Interests:</strong> Theater, Water Polo, Swimming, Math & Physics,
                         AI, Energy Systems, History.</div>
-                    <div class="skills-line"><strong>AP Exams:</strong> AP Calculus BC (5), AP World History (5), AP
-                        Physics 1 (5)</div>
                 </section>
 
                 <section class="section">
@@ -353,13 +460,14 @@
                 <section class="section highlight">
                     <h2>Honors & Awards</h2>
                     <ul>
-                        <li>Mathematical Olympiad Program (MOP) Camper, 2025</li>
+                        <li>Mathematical Olympiad Program (MOP) Invitee and Camper, 2025</li>
                         <li>USA Junior Mathematical Olympiad (USAJMO) Awardee: Top Honor (2025), Honorable Mention
                             (2026)</li>
                         <li>American Mathematics Masters of Competitions (AMM) Awardee - Honorable Mention (2026)</li>
                         <li>1st Place, American Computer Science League (ACSL) Intermediate 5 Programming Contest
                             (2026), perfect scores in all four rounds
                         </li>
+                        <li>AMC 10/12 Honor/Distinguished Honor Roll (2023,2024,2025,2026) </li>
                         <li>Texas A&amp;M Mathematics Contest Awardee - A&amp;B (1st place, 2022), D&amp;E (7th place,
                             2024), Best Student (7th place, 2025)</li>
                         <li>National Latin Exam - Silver Medalist (2025)</li>
@@ -396,13 +504,17 @@
 
                 <section class="section">
                     <h2>Selected Independent Projects</h2>
+                    <div class="section-intro">Developed machine learning expertise through open-source implementation,
+                        and Kaggle competitions, applying AI techniques to
+                        real-world forecasting and predictive analytics using public datasets.</div>
                     <ul>
                         <li><strong>Renewable Grid Risk Analysis:</strong> Developed a framework for net-load
                             variability and ramping risk under high renewable penetration</li>
-                        <li><strong>Kaggle Electricity Balance Forecast Competition:</strong> Built and compared direct
+                        <li><strong>Kaggle Competition - Electricity Balance Forecast:</strong> Built and
+                            compared direct
                             vs. component forecasting pipelines, with a tuned component approach achieving stronger
                             validation MAE/RMSE for load-solar-wind balance prediction</li>
-                        <li><strong>Kaggle Predict Customer Churn Competition:</strong> Built and blended
+                        <li><strong>Kaggle Competition - Predict Customer Churn:</strong> Built and blended
                             HistGradientBoosting and CatBoost models, achieving a score of 0.91346 in binary churn
                             prediction</li>
                     </ul>
@@ -420,46 +532,6 @@
         </div>
     </main>
 
-    <script>
-        function triggerDownload() {
-            const downloadBtn = document.getElementById('downloadBtn');
-            const originalText = downloadBtn.textContent;
-            const pdfFileName = 'Kyle-Lin-StMark-C2028-Resume.pdf';
-
-            try {
-                downloadBtn.disabled = true;
-                downloadBtn.textContent = 'Preparing PDF...';
-
-                const link = document.createElement('a');
-                link.href = pdfFileName;
-                link.download = pdfFileName;
-                link.rel = 'noopener';
-                document.body.appendChild(link);
-                link.click();
-                document.body.removeChild(link);
-            } catch (error) {
-                window.print();
-            } finally {
-                downloadBtn.textContent = originalText;
-                downloadBtn.disabled = false;
-            }
-        }
-
-        const downloadBtn = document.getElementById('downloadBtn');
-        downloadBtn.addEventListener('click', triggerDownload);
-
-        const params = new URLSearchParams(window.location.search);
-        if (params.get('download') === '1') {
-            window.addEventListener('load', () => {
-                const autoPrintNotice = document.createElement('div');
-                autoPrintNotice.style.marginTop = '0.6rem';
-                autoPrintNotice.style.fontSize = '0.84rem';
-                autoPrintNotice.style.color = '#5a534b';
-                autoPrintNotice.textContent = 'Click "Download as PDF" to download the prepared PDF file.';
-                downloadBtn.parentElement.appendChild(autoPrintNotice);
-            });
-        }
-    </script>
 </body>
 
 </html>
